@@ -88,6 +88,8 @@ local function createTopBarButton(onActivate)
 	Input.Size = UDim2.new(1, 0, 1, 0)
 	Input.Text = ""
 	
+	listen(Button,onActivate)
+	
 	return Button
 end
 
