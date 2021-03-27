@@ -46,7 +46,7 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 			Krampus.Name = "Krampus"
 			Krampus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 			Krampus.ResetOnSpawn = false
-            		Krampus.IgnoreGuiInset = true
+			Krampus.IgnoreGuiInset = true
 
 			TopBarFrame.Name = "TopBarFrame"
 			TopBarFrame.Parent = Krampus
@@ -164,7 +164,6 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 	local registerOffset = CFrame.new(0, -2.5, 3.5)
 
 	local player = Players.LocalPlayer
-	local backpack = player:WaitForChild("Backpack")
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
@@ -182,11 +181,7 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 	end
 
 	local function setenabled()
-		while not farmThread or coroutine.status(farmThread) ~= "suspended" do 
-			yield()
-		end
 		enabled = true
-		coroutine.resume(farmThread)
 	end
 
 	local function getCharacter()
@@ -239,85 +234,71 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 	end
 
 	farmThread = coroutine.create(function()
-		while true do
-			if not enabled then
-				if player.Character then
-					player.Character.PrimaryPart.Anchored = false
-				end
-				coroutine.yield()
-			else
-				if player.Character then
-					player.Character.PrimaryPart.Anchored = false
-				end
-			end
+		while yield() do
+			if enabled then
+				local register = getNearestRegister()
 
-			local register = getNearestRegister()
+				local character = getCharacter()
+				local root = getRoot(character)
 
-			local character = getCharacter()
-			local root = getRoot(character)
+				if root then
+					if register then
+						-- Opens the register
+						local first = true
+						local event = nil
 
-			if root then
-				if register then
-					-- Opens the register
-					local first = true
-					local tool = nil
-					local event = nil
-					event = HB:Connect(function()
-						if tool then
-							tool.Parent = character
-						end
-					end)
-					repeat
-						yield()
-						pcall(
-							function()
-								character,root = getBoth()
-								local Combat = backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
-								if not Combat then
-									resetCharacter()
-									return
-								else
-									tool = Combat
+						repeat
+							yield()
+							pcall(
+								function()
+									character,root = getBoth()
+									local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+									if not Combat then
+										wait(0.5)
+										Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+										if not Combat then
+											resetCharacter()
+											return
+										end
+									end
+									root = getRoot()
+									local desiredCFrame = register.Head.CFrame * registerOffset
+									if (root.Position-desiredCFrame.Position).magnitude>2 or first then
+										first = false
+										root.CFrame = desiredCFrame
+									end
+									Combat.Parent = character
+									Combat:Activate()
 								end
-								root = getRoot()
-								local desiredCFrame = register.Head.CFrame * registerOffset
-								if (root.Position-desiredCFrame.Position).magnitude>2 or first then
-									first = false
-									root.CFrame = desiredCFrame
+							)
+						until not register or register.Humanoid.Health < 0
+
+						pcall(function()
+							character,root = getBoth()
+							for i, v in pairs(drops:GetDescendants()) do
+								if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
+									if (v.Parent.Position - root.Position).magnitude <= 18 then
+										repeat
+											character,root = getBoth()
+											yield()
+											fireclickdetector(v)
+										until not v or not v.Parent.Parent
+									end
 								end
-								Combat.Parent = character
-								Combat:Activate()
 							end
-						)
-					until not register or register.Humanoid.Health < 0
+						end)
 
-					if event then
-						event:Disconnect()
+						yield(1.25)
+					else
+						if (root.Position-afkPoint.Magnitude)>2 then
+							root.CFrame = afkPoint
+						end
 					end
-
-					pcall(function()
-						character,root = getBoth()
-						for i, v in pairs(drops:GetDescendants()) do
-							if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
-								if (v.Parent.Position - root.Position).magnitude <= 18 then
-									repeat
-										character,root = getBoth()
-										yield()
-										fireclickdetector(v)
-									until not v or not v.Parent.Parent
-								end
-							end
-						end
-					end)
-
-					yield(1.25)
 				else
-					root.CFrame = afkPoint
+					resetCharacter()
 				end
-			else
-				resetCharacter()
+				yield(0.05)
 			end
-			yield(0.05)
 		end
 	end)
 
@@ -354,15 +335,16 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 			overlay.ImageTransparency = 1
 		end)
 	end
-
+	local toggledOn = false
 	listen(toggle,function(self)
-		setenabled(not enabled)
+		toggledOn = not toggledOn
 		local state = self.Background.State
-		if enabled then
+		if toggledOn then
 			state.Text = "ON"
 		else
 			state.Text = "OFF"
 		end
+		setenabled(toggledOn)
 	end)
 
 	print("KRAMPUS || Da Hood Auto Farm Script Loaded")
