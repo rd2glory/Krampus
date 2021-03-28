@@ -16,8 +16,8 @@ if not shared.KrampusLoader then
 		end
 	end
 
-	local function sendNotif(title,text,duration)
-		duration = duration or 3
+	local function sendNotif(title,text,duration,logMessage)
+		print("KRAMPUS v"..version.." || "..logMessage)
 		StarterGui:SetCore("SendNotification", {
 			Title = title,
 			Text = text,
@@ -185,7 +185,7 @@ if not shared.KrampusLoader then
 				Krampus.Parent = CoreGui
 				shared.Krampus = Krampus
 
-				sendNotif("Krampus Loaded","Successfully loaded v"..version)
+				sendNotif("Krampus Loaded","Successfully loaded v"..version,"Successfully loaded Krampus")
 			end
 
 			shared.KrampusModules = shared.KrampusModules or {}
@@ -199,11 +199,11 @@ if not shared.KrampusLoader then
 				local right = TopBar:WaitForChild("RightFrame")
 				local extra = Krampus:WaitForChild("ExtraFrame")
 				code(createTopBarButton,left,right,extra)
-				sendNotif("Successfully loaded!",name.." has been loaded")
+				sendNotif("Successfully loaded!",name.." has been loaded",3,"Loaded "..name)
 			elseif not validPlace(placeId) then
-				sendNotif("Failed to load!","Invalid place Id")
+				sendNotif("Failed to load!","Invalid place Id","Module "..name.." can not be loaded in this place")
 			else
-				sendNotif("Failed to load!","Module already loaded!")
+				sendNotif("Failed to load!","Module already loaded!","Module "..name.." is already loaded")
 			end
 		end
 	})
