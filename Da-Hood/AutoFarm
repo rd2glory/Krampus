@@ -49,6 +49,8 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
+	
+	local rad = math.rad
 
 	local function yield(length)
 		if length then
@@ -130,7 +132,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 					if register then
 						-- Opens the register
 						local first = true
-
 						repeat
 							yield()
 							pcall(
@@ -153,7 +154,7 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 										first = false
 										root.CFrame = desiredCFrame
 									end
-									root.CFrame = CFrame.lookAt(root.Position,head.Position)
+									root.CFrame = CFrame.new(root.Position) * CFrame.Angles(head.CFrame:ToOrientation())
 									Combat.Parent = character
 									Combat:Activate()
 								end
