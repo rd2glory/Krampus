@@ -108,7 +108,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 	coroutine.resume(coroutine.create(function()
 		while yield() do
 			if enabled then
-				print("enabled")
 				local register = getNearestRegister()
 
 				local character = getCharacter()
