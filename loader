@@ -95,7 +95,6 @@ return setmetatable({
 	
 },{
 	__call = function(_,placeId,name,initButton,code,raw)
-		print("YESSS")
 		repeat yield() until game:IsLoaded()
 		
 		local KrampusLoaded = shared.KrampusLoaded
@@ -182,18 +181,11 @@ return setmetatable({
 			
 			sendNotif("Krampus Loaded","Successfully loaded V"..version)
 		end
-		-- Creates the loader module in CoreGui if it's not there already
-		local existsInCoreGui = CoreGui:FindFirstChild("KrampusLoader")
-		if not existsInCoreGui then
-			local Loader = Instance.new("ModuleScript")
-			Loader.Name = "KrampusLoader"
-			Loader.Content = raw
-			Loader.Parent = CoreGui
-		end
 		
 		shared.KrampusModules = shared.KrampusModules or {}
 		
-		if game.PlaceId == placeId or shared.KrampusModules[name] then
+		if game.PlaceId == placeId and not shared.KrampusModules[name] then
+			shared.KrampusModules[name] = true
 			-- It is in the right game
 			local Krampus = shared.Krampus
 			local TopBar = Krampus:WaitForChild("TopBarFrame")
