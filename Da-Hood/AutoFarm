@@ -83,6 +83,17 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 			if humanoid and humanoid.Health > 0 then
 				humanoid.Health = 0
 			end
+			local shouldReturn = false
+			local charAdded = nil
+			charAdded = player.CharacterAdded:Connect(function(char)
+				character = char
+				repeat yield() until charAdded
+				charAdded:disconnect()
+				shouldReturn = true
+				return
+			end)
+			repeat yield() until shouldReturn
+			return
 		else
 			player:LoadCharacter()
 		end
@@ -127,7 +138,7 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 									character,root = getBoth()
 									local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 									if not Combat then
-										wait(1)
+										wait(0.5)
 										character,root = getBoth()
 										Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 										if not Combat then
