@@ -1,5 +1,5 @@
-do
-	local version = "0.3"
+if not shared.KrampusLoader then
+	local version = "0.9"
 
 	local StarterGui = game:GetService("StarterGui")
 	local CoreGui = game:GetService("CoreGui")
@@ -94,7 +94,7 @@ do
 		return Button
 	end
 
-	Loader = setmetatable({
+	shared.KrampusLoader = setmetatable({
 		-- Stuff will be added here in the future
 	},{
 		__call = function(_,placeId,name,initButton,code,raw)
