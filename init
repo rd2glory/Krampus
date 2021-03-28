@@ -1,9 +1,16 @@
--- Don't use variables that start with '__', those are typically reserved for Krampus
-local Loader = game:GetService("CoreGui"):FindFirstChild("Loader")
+local Loader = shared.KrampusLoader
 if not Loader then
-  Loader = Instance.new("ModuleScript")
-  Loader.Name = "Loader"
-  Loader.Content = game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true)
-  Loader.Parent = game:GetService("CoreGui")
+	Loader = Instance.new("ModuleScript")
+	Loader.Name = "Loader"
+	Loader.Source = game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true)
+	shared.KrampusLoader = Loader
 end
 Loader = require(Loader)
+Loader(-1,"Template",function(initTopBarButton,topLeft,topRight,extra)
+	local ToggleButton = initTopBarButton(function()
+		print("pressed")
+	end) -- Makes a topbar button
+	ToggleButton.Parent = topLeft
+end,function()
+	print("Code ran")
+end)
