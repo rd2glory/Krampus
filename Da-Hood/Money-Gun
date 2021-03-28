@@ -60,6 +60,7 @@ shared.KrampusLoader(2788229376,"Money Gun",function(initTopBarButton,topLeft,to
 				if char and char:FindFirstChildOfClass("Humanoid").Health > 0 then
 					local moneyGun = char:FindFirstChildOfClass("[Money Gun]") or player.Backpack:FindFirstChildOfClass("[Money Gun]")
 					if moneyGun then
+						moneyGun.Parent = char
 						moneyGun:Activate()
 					end
 				end
