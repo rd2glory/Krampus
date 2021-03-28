@@ -127,7 +127,8 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 									character,root = getBoth()
 									local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 									if not Combat then
-										wait(0.5)
+										wait(1)
+										character,root = getBoth()
 										Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 										if not Combat then
 											resetCharacter()
