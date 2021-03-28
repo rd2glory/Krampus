@@ -1,0 +1,93 @@
+--// KRAMPUS \\--
+-- Da Hood Auto Farm Script v2.0
+-- obfuscating is for losers
+
+if not shared.KrampusLoader then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
+end
+
+shared.KrampusLoader(2788229376,"Auto Take",function(initTopBarButton,topLeft,topRight,extra)
+	local workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+
+	local player = Players.LocalPlayer
+
+	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
+
+	local enabled = false
+	local ToggleButton = initTopBarButton(function(self)
+		enabled = not enabled
+		local state = self.Background.State
+		if enabled then
+			state.Text = "STOP"
+		else
+			state.Text = "TAKE"
+		end
+	end) -- Makes a topbar button
+
+	local State = Instance.new("TextLabel")
+	State.Name = "State"
+	State.Parent = ToggleButton:WaitForChild("Background")
+	State.AnchorPoint = Vector2.new(0.5, 0.5)
+	State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	State.BackgroundTransparency = 1
+	State.Position = UDim2.new(0.5, -1, 0.5, 0)
+	State.Size = UDim2.new(0.75, 0, 0.75, 0)
+	State.Font = Enum.Font.GothamBold
+	State.Text = "TAKE"
+	State.TextColor3 = Color3.fromRGB(255, 255, 255)
+	State.TextScaled = true
+	State.TextSize = 14
+	State.TextWrapped = true
+
+	local HB = RunService.Heartbeat
+
+	local function yield(length)
+		if length then
+			return wait(length)
+		else
+			return HB:wait()
+		end
+	end
+
+	local function getCharacter()
+		return player.Character or player.CharacterAdded:wait()
+	end
+
+	local function getRoot(arg)
+		local char = arg or getCharacter()
+		repeat yield() until not char or char.PrimaryPart
+		if char then
+			return char.PrimaryPart
+		end
+	end
+
+	local function getBoth()
+		local char = getCharacter()
+		local root = getRoot(char)
+		return char,root
+	end
+
+	coroutine.resume(coroutine.create(function()
+		while yield(0.1) do
+			if enabled then
+				local char,root = getBoth()
+				if char then
+					for i, v in pairs(drops:GetDescendants()) do
+						if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
+							if (v.Parent.Position - root.Position).magnitude <= 18 then
+								repeat
+									char,root = getBoth()
+									yield()
+									fireclickdetector(v)
+								until not v or not v.Parent.Parent
+							end
+						end
+					end
+				end
+			end
+		end
+	end))
+	ToggleButton.Parent = topLeft
+end)
