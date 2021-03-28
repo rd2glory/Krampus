@@ -1,7 +1,8 @@
 if not shared.KrampusLoader then
-	local version = "1.0"
+	local version = "1.2"
 
 	local StarterGui = game:GetService("StarterGui")
+	local GuiService = game:GetService("GuiService")
 	local CoreGui = game:GetService("CoreGui")
 	local HB = game:GetService("RunService").Heartbeat
 
@@ -184,6 +185,14 @@ if not shared.KrampusLoader then
 
 				Krampus.Parent = CoreGui
 				shared.Krampus = Krampus
+				
+				HB.RenderStepped:Connect(function()
+					if not GuiService.MenuIsOpen then
+						TopBarFrame.Visible = true
+					else
+						TopBarFrame.Visible = false
+					end
+				end)
 
 				sendNotif("Krampus Loaded","Successfully loaded v"..version,"Successfully loaded Krampus")
 			end
