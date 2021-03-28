@@ -1,0 +1,8 @@
+-- Don't use variables that start with '__', those are typically reserved for Krampus
+local Loader = game:GetService("CoreGui"):FindFirstChild("Loader")
+if not Loader then
+  Loader = Instance.new("ModuleScript")
+  Loader.Name = "Loader"
+  Loader.Content = game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true)
+end
+Loader = require(Loader)
