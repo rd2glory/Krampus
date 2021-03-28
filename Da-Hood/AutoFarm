@@ -12,9 +12,9 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 		enabled = not enabled
 		local state = self.Background.State
 		if enabled then
-			state.Text = "OFF"
-		else
 			state.Text = "ON"
+		else
+			state.Text = "OFF"
 		end
 	end) -- Makes a topbar button
 	local State = Instance.new("TextLabel")
@@ -33,7 +33,7 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 	State.TextWrapped = true
 
 	ToggleButton.Parent = topLeft
-	
+
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
@@ -110,7 +110,8 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 	end
 
 	coroutine.resume(coroutine.create(function()
-		while yield() do
+		while true do
+			yield()
 			if enabled then
 				print("enabled")
 				local register = getNearestRegister()
@@ -122,7 +123,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 					if register then
 						-- Opens the register
 						local first = true
-						local event = nil
 
 						repeat
 							yield()
@@ -178,6 +178,4 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 			end
 		end
 	end))
-end,function()
-	
 end)
