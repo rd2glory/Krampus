@@ -1,4 +1,4 @@
-local version = "0.1"
+local version = "0.2"
 
 local StarterGui = game:GetService("StarterGui")
 local CoreGui = game:GetService("CoreGui")
@@ -82,17 +82,19 @@ local function createTopBarButton(onActivate)
 	StateOverlay.ScaleType = Enum.ScaleType.Slice
 	StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
 
-	Input.Name = "input"
+	Input.Name = "Input"
 	Input.Parent = Button
 	Input.BackgroundTransparency = 1
 	Input.Size = UDim2.new(1, 0, 1, 0)
 	Input.Text = ""
+	
+	listen(Button,onActivate)
 
 	return Button
 end
 
 return setmetatable({
-
+	-- Stuff will be added here in the future
 },{
 	__call = function(_,placeId,name,initButton,code,raw)
 		repeat yield() until game:IsLoaded()
@@ -176,7 +178,6 @@ return setmetatable({
 			ChatIcon.Size = UDim2.new(0, 32, 1, 0)
 
 			Krampus.Parent = CoreGui
-
 			shared.Krampus = Krampus
 
 			sendNotif("Krampus Loaded","Successfully loaded V"..version)
@@ -194,7 +195,7 @@ return setmetatable({
 			local extra = Krampus:WaitForChild("ExtraFrame")
 			initButton(createTopBarButton,left,right,extra)
 			code()
-			sendNotif("Successfully to load!",name.." has been loaded")
+			sendNotif("Successfully loaded!",name.." has been loaded")
 		elseif game.PlaceId ~= placeId then
 			sendNotif("Failed to load!","Invalid place Id")
 		else
