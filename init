@@ -4,5 +4,6 @@ if not Loader then
   Loader = Instance.new("ModuleScript")
   Loader.Name = "Loader"
   Loader.Content = game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true)
+  Loader.Parent = game:GetService("CoreGui")
 end
 Loader = require(Loader)
