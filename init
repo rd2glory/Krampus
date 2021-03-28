@@ -2,10 +2,11 @@ local Loader = shared.KrampusLoader
 if not Loader then
 	Loader = Instance.new("ModuleScript")
 	Loader.Name = "Loader"
-	Loader.Source = game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true)
+	Loader.Source = "return '"..game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true).."'"
 	shared.KrampusLoader = Loader
 end
-Loader = require(Loader)
+loadstring(require(Loader))
+
 Loader(-1,"Template",function(initTopBarButton,topLeft,topRight,extra)
 	local ToggleButton = initTopBarButton(function()
 		print("pressed")
