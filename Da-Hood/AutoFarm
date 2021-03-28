@@ -2,158 +2,38 @@
 -- Da Hood Auto Farm Script V1.0
 -- obfuscating is for losers
 
-repeat
-	wait()
-until game:IsLoaded()
+if not shared.KrampusLoader then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
+end
 
--- Gui Initialization
-
-shared.KrampusModules = shared.KrampusModules or {}
-
-if not shared.KrampusModules["Da-Hood Auto Farm"] then
-	shared.KrampusModules["Da-Hood Auto Farm"] = true
-	local Krampus = nil
-	local toggle = nil
-
-	do
-		if shared.Krampus then
-			Krampus = shared.Krampus
-
-			local AutoFarm = Instance.new("Frame")
-			AutoFarm.Name = "AutoFarm"
-			AutoFarm.Parent = Krampus.TopBarFrame.LeftFrame
-			AutoFarm.BackgroundTransparency = 1
-			AutoFarm.LayoutOrder = 1
-			AutoFarm.Size = UDim2.new(0, 32, 1, 0)
-
-			toggle = AutoFarm
+shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+	local enabled = false
+	local ToggleButton = initTopBarButton(function(self)
+		enabled = not enabled
+		local state = self.Background.State
+		if enabled then
+			state.Text = "OFF"
 		else
-			Krampus = Instance.new("ScreenGui")
-			local TopBarFrame = Instance.new("Frame")
-			local RightFrame = Instance.new("Frame")
-			local MoreMenu = Instance.new("Frame")
-			local Layout = Instance.new("UIListLayout")
-			local LeftFrame = Instance.new("Frame")
-			local MenuIcon = Instance.new("Frame")
-			local Layout_2 = Instance.new("UIListLayout")
-			local ChatIcon = Instance.new("Frame")
-			local AutoFarm = Instance.new("Frame")
-			local Background = Instance.new("ImageButton")
-			local StateOverlay = Instance.new("ImageLabel")
-			local State = Instance.new("TextLabel")
-			local input = Instance.new("TextButton")
-
-			Krampus.Name = "Krampus"
-			Krampus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-			Krampus.ResetOnSpawn = false
-			Krampus.IgnoreGuiInset = true
-
-			TopBarFrame.Name = "TopBarFrame"
-			TopBarFrame.Parent = Krampus
-			TopBarFrame.BackgroundTransparency = 1
-			TopBarFrame.Size = UDim2.new(1, 0, 0, 36)
-
-			RightFrame.Name = "RightFrame"
-			RightFrame.Parent = TopBarFrame
-			RightFrame.AnchorPoint = Vector2.new(1, 0)
-			RightFrame.BackgroundTransparency = 1
-			RightFrame.Position = UDim2.new(1, -16, 0, 0)
-			RightFrame.Size = UDim2.new(0.5, -16, 1, 0)
-
-			MoreMenu.Name = "MoreMenu"
-			MoreMenu.Parent = RightFrame
-			MoreMenu.BackgroundTransparency = 1
-			MoreMenu.LayoutOrder = 2
-			MoreMenu.Size = UDim2.new(0, 32, 1, 0)
-
-			Layout.Name = "Layout"
-			Layout.Parent = RightFrame
-			Layout.FillDirection = Enum.FillDirection.Horizontal
-			Layout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-			Layout.SortOrder = Enum.SortOrder.LayoutOrder
-			Layout.VerticalAlignment = Enum.VerticalAlignment.Center
-			Layout.Padding = UDim.new(0, 12)
-
-			LeftFrame.Name = "LeftFrame"
-			LeftFrame.Parent = TopBarFrame
-			LeftFrame.BackgroundTransparency = 1
-			LeftFrame.Position = UDim2.new(0, 16, 0, 0)
-			LeftFrame.Size = UDim2.new(0.5, -16, 1, 0)
-
-			MenuIcon.Name = "MenuIcon"
-			MenuIcon.Parent = LeftFrame
-			MenuIcon.BackgroundTransparency = 1
-			MenuIcon.LayoutOrder = 1
-			MenuIcon.Size = UDim2.new(0, 32, 1, 0)
-
-			Layout_2.Name = "Layout"
-			Layout_2.Parent = LeftFrame
-			Layout_2.FillDirection = Enum.FillDirection.Horizontal
-			Layout_2.SortOrder = Enum.SortOrder.LayoutOrder
-			Layout_2.VerticalAlignment = Enum.VerticalAlignment.Center
-			Layout_2.Padding = UDim.new(0, 12)
-
-			ChatIcon.Name = "ChatIcon"
-			ChatIcon.Parent = LeftFrame
-			ChatIcon.BackgroundTransparency = 1
-			ChatIcon.LayoutOrder = 1
-			ChatIcon.Size = UDim2.new(0, 32, 1, 0)
-
-			AutoFarm.Name = "AutoFarm"
-			AutoFarm.Parent = LeftFrame
-			AutoFarm.BackgroundTransparency = 1
-			AutoFarm.LayoutOrder = 1
-			AutoFarm.Size = UDim2.new(0, 32, 1, 0)
-
-			Background.Name = "Background"
-			Background.Parent = AutoFarm
-			Background.AnchorPoint = Vector2.new(0, 1)
-			Background.BackgroundTransparency = 1
-			Background.Position = UDim2.new(0, 0, 1, 0)
-			Background.Size = UDim2.new(0, 32, 0, 32)
-			Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
-
-			StateOverlay.Name = "StateOverlay"
-			StateOverlay.Parent = Background
-			StateOverlay.BackgroundTransparency = 1
-			StateOverlay.Size = UDim2.new(1, 0, 1, 0)
-			StateOverlay.ZIndex = 2
-			StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_2.png"
-			StateOverlay.ImageRectOffset = Vector2.new(98, 493)
-			StateOverlay.ImageRectSize = Vector2.new(17, 17)
-			StateOverlay.ImageTransparency = 1
-			StateOverlay.ScaleType = Enum.ScaleType.Slice
-			StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
-
-			State.Name = "State"
-			State.Parent = Background
-			State.AnchorPoint = Vector2.new(0.5, 0.5)
-			State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			State.BackgroundTransparency = 1
-			State.Position = UDim2.new(0.5, -1, 0.5, 0)
-			State.Size = UDim2.new(0.75, 0, 0.75, 0)
-			State.Font = Enum.Font.GothamBold
-			State.Text = "OFF"
-			State.TextColor3 = Color3.fromRGB(255, 255, 255)
-			State.TextScaled = true
-			State.TextSize = 14
-			State.TextWrapped = true
-
-			input.Name = "input"
-			input.Parent = AutoFarm
-			input.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-			input.BackgroundTransparency = 1
-			input.Size = UDim2.new(1, 0, 1, 0)
-			input.Text = ""
-			input.TextSize = 14
-
-			toggle = AutoFarm
-			Krampus.Parent = game:GetService("CoreGui")
+			state.Text = "ON"
 		end
-	end
+	end) -- Makes a topbar button
+	local State = Instance.new("TextLabel")
+	State.Name = "State"
+	State.Parent = ToggleButton:WaitForChild("Background")
+	State.AnchorPoint = Vector2.new(0.5, 0.5)
+	State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	State.BackgroundTransparency = 1
+	State.Position = UDim2.new(0.5, -1, 0.5, 0)
+	State.Size = UDim2.new(0.75, 0, 0.75, 0)
+	State.Font = Enum.Font.GothamBold
+	State.Text = "OFF"
+	State.TextColor3 = Color3.fromRGB(255, 255, 255)
+	State.TextScaled = true
+	State.TextSize = 14
+	State.TextWrapped = true
 
-	-- Auto farm
-
+	ToggleButton.Parent = topLeft
+	
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
@@ -178,10 +58,6 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 		else
 			return HB:wait()
 		end
-	end
-
-	local function setenabled()
-		enabled = true
 	end
 
 	local function getCharacter()
@@ -233,9 +109,10 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 		return target
 	end
 
-	farmThread = coroutine.create(function()
+	coroutine.resume(coroutine.create(function()
 		while yield() do
 			if enabled then
+				print("enabled")
 				local register = getNearestRegister()
 
 				local character = getCharacter()
@@ -300,54 +177,7 @@ if not shared.KrampusModules["Da-Hood Auto Farm"] then
 				yield(0.05)
 			end
 		end
-	end)
-
-	coroutine.resume(farmThread) -- Initialize the coroutine, it will immediatly yield itself
-
-	-- Gui Input
-
-	local black = Color3.new(0,0,0)
-	local white = Color3.new(1,1,1)
-
-	local function listen(obj,onPress)
-		local overlay = obj.Background.StateOverlay
-		local button = obj.input
-		local pressing = false
-		button.MouseButton1Down:Connect(function()
-			pressing = true
-			overlay.ImageColor3 = black
-			overlay.ImageTransparency = 0.7
-		end)
-		button.MouseButton1Up:Connect(function()
-			if pressing then
-				pressing = false
-				overlay.ImageColor3 = white
-				overlay.ImageTransparency = 0.9
-				onPress(obj)
-			end
-		end)
-		obj.MouseEnter:Connect(function()
-			overlay.ImageColor3 = white
-			overlay.ImageTransparency = 0.9
-		end)
-		obj.MouseLeave:Connect(function()
-			overlay.ImageColor3 = white
-			overlay.ImageTransparency = 1
-		end)
-	end
-	local toggledOn = false
-	listen(toggle,function(self)
-		toggledOn = not toggledOn
-		local state = self.Background.State
-		if toggledOn then
-			state.Text = "ON"
-		else
-			state.Text = "OFF"
-		end
-		setenabled(toggledOn)
-	end)
-
-	print("KRAMPUS || Da Hood Auto Farm Script Loaded")
-else
-	warn("KRAMPUS || Da Hood Auto Farm Script Already Loaded! Rejoin if you want to re-initialize")
-end
+	end))
+end,function()
+	
+end)
