@@ -1,4 +1,4 @@
-do
+(function()
 	local version = "0.3"
 
 	local StarterGui = game:GetService("StarterGui")
@@ -94,7 +94,7 @@ do
 		return Button
 	end
 
-	Loader = setmetatable({
+	return setmetatable({
 		-- Stuff will be added here in the future
 	},{
 		__call = function(_,placeId,name,initButton,code,raw)
@@ -204,5 +204,5 @@ do
 			end
 		end
 	})
-end
+end)()
 
