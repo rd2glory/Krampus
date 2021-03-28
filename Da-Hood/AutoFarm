@@ -6,7 +6,7 @@ if not shared.KrampusLoader then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
 end
 
-shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
