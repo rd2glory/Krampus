@@ -7,6 +7,10 @@ if not shared.KrampusLoader then
 end
 
 shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+	local workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+
 	local player = Players.LocalPlayer
 	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
 
@@ -37,10 +41,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 	State.TextScaled = true
 	State.TextSize = 14
 	State.TextWrapped = true
-
-	local workspace = game:GetService("Workspace")
-	local Players = game:GetService("Players")
-	local RunService = game:GetService("RunService")
 
 	local HB = RunService.Heartbeat
 
