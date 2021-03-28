@@ -97,7 +97,7 @@ if not shared.KrampusLoader then
 	shared.KrampusLoader = setmetatable({
 		-- Stuff will be added here in the future
 	},{
-		__call = function(_,placeId,name,initButton,code,raw)
+		__call = function(_,placeId,name,code)
 			repeat yield() until game:IsLoaded()
 
 			local KrampusLoaded = shared.KrampusLoaded
@@ -194,8 +194,7 @@ if not shared.KrampusLoader then
 				local left = TopBar:WaitForChild("LeftFrame")
 				local right = TopBar:WaitForChild("RightFrame")
 				local extra = Krampus:WaitForChild("ExtraFrame")
-				initButton(createTopBarButton,left,right,extra)
-				code()
+				code(createTopBarButton,left,right,extra)
 				sendNotif("Successfully loaded!",name.." has been loaded")
 			elseif game.PlaceId ~= placeId then
 				sendNotif("Failed to load!","Invalid place Id")
