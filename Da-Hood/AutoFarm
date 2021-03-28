@@ -177,6 +177,12 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						end)
 
 						yield(1.15)
+						if not enabled then
+							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+							if Combat then
+								Combat.Parent = player.Backpack
+							end
+						end
 					else
 						if (root.Position-afkPoint.Position).magnitude>3 then
 							character,root = getBoth()
