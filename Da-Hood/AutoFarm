@@ -7,16 +7,22 @@ if not shared.KrampusLoader then
 end
 
 shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+	local player = Players.LocalPlayer
+	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
+
 	local enabled = false
 	local ToggleButton = initTopBarButton(function(self)
 		enabled = not enabled
 		local state = self.Background.State
 		if enabled then
 			state.Text = "ON"
+			controls:Disable()
 		else
 			state.Text = "OFF"
+			controls:Enable()
 		end
 	end) -- Makes a topbar button
+	
 	local State = Instance.new("TextLabel")
 	State.Name = "State"
 	State.Parent = ToggleButton:WaitForChild("Background")
@@ -32,8 +38,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 	State.TextSize = 14
 	State.TextWrapped = true
 
-	ToggleButton.Parent = topLeft
-
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
@@ -42,8 +46,6 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 
 	local afkPoint = CFrame.new(13,12,205)
 	local registerOffset = CFrame.new(0, -2.5, 3.5)
-
-	local player = Players.LocalPlayer
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
@@ -159,9 +161,10 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 							end
 						end)
 
-						yield(1.25)
+						yield(1.15)
 					else
 						if (root.Position-afkPoint.Position).magnitude>3 then
+							character,root = getBoth()
 							root.CFrame = afkPoint
 						end
 					end
@@ -172,4 +175,5 @@ shared.KrampusLoader(-1,"Auto Farm",function(initTopBarButton,topLeft,topRight,e
 			end
 		end
 	end))
+	ToggleButton.Parent = topLeft
 end)
