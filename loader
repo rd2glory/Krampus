@@ -56,7 +56,7 @@ local function createTopBarButton(onActivate)
 	local Background = Instance.new("ImageButton")
 	local StateOverlay = Instance.new("ImageLabel")
 	local Input = Instance.new("TextButton")
-	
+
 	Button.Name = "AutoFarm"
 	Button.BackgroundTransparency = 1
 	Button.LayoutOrder = 1
@@ -87,20 +87,20 @@ local function createTopBarButton(onActivate)
 	Input.BackgroundTransparency = 1
 	Input.Size = UDim2.new(1, 0, 1, 0)
 	Input.Text = ""
-	
+
 	return Button
 end
 
 return setmetatable({
-	
+
 },{
 	__call = function(_,placeId,name,initButton,code,raw)
 		repeat yield() until game:IsLoaded()
-		
+
 		local KrampusLoaded = shared.KrampusLoaded
 		if not KrampusLoaded then
 			shared.KrampusLoaded = true
-			
+
 			local Krampus = Instance.new("ScreenGui")
 			local TopBarFrame = Instance.new("Frame")
 			local RightFrame = Instance.new("Frame")
@@ -128,7 +128,7 @@ return setmetatable({
 			RightFrame.BackgroundTransparency = 1
 			RightFrame.Position = UDim2.new(1, -16, 0, 0)
 			RightFrame.Size = UDim2.new(0.5, -16, 1, 0)
-			
+
 			ExtraFrame.Name = "ExtraFrame"
 			ExtraFrame.Parent = Krampus
 			ExtraFrame.AnchorPoint = Vector2.new(0, 0)
@@ -176,15 +176,15 @@ return setmetatable({
 			ChatIcon.Size = UDim2.new(0, 32, 1, 0)
 
 			Krampus.Parent = CoreGui
-			
+
 			shared.Krampus = Krampus
-			
+
 			sendNotif("Krampus Loaded","Successfully loaded V"..version)
 		end
-		
+
 		shared.KrampusModules = shared.KrampusModules or {}
-		
-		if game.PlaceId == placeId and not shared.KrampusModules[name] then
+
+		if (placeId == -1 or game.PlaceId == placeId) and not shared.KrampusModules[name] then
 			shared.KrampusModules[name] = true
 			-- It is in the right game
 			local Krampus = shared.Krampus
