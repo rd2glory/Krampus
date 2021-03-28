@@ -1,5 +1,5 @@
 if not shared.KrampusLoader then
-	local version = "0.9"
+	local version = "1.0"
 
 	local StarterGui = game:GetService("StarterGui")
 	local CoreGui = game:GetService("CoreGui")
@@ -23,6 +23,10 @@ if not shared.KrampusLoader then
 			Text = text,
 			Duration = duration,
 		})
+	end
+	
+	local function validPlace(id)
+		return id == -1 or game.PlaceId == id
 	end
 
 	local function listen(obj,onPress)
@@ -186,7 +190,7 @@ if not shared.KrampusLoader then
 
 			shared.KrampusModules = shared.KrampusModules or {}
 
-			if (placeId == -1 or game.PlaceId == placeId) and not shared.KrampusModules[name] then
+			if validPlace(placeId) and not shared.KrampusModules[name] then
 				shared.KrampusModules[name] = true
 				-- It is in the right game
 				local Krampus = shared.Krampus
@@ -196,7 +200,7 @@ if not shared.KrampusLoader then
 				local extra = Krampus:WaitForChild("ExtraFrame")
 				code(createTopBarButton,left,right,extra)
 				sendNotif("Successfully loaded!",name.." has been loaded")
-			elseif game.PlaceId ~= placeId then
+			elseif not validPlace(placeId) then
 				sendNotif("Failed to load!","Invalid place Id")
 			else
 				sendNotif("Failed to load!","Module already loaded!")
