@@ -6,7 +6,7 @@ if not shared.KrampusLoader then
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
 end
 
-shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+shared.KrampusLoader(2788229376,"Money Gun",function(initTopBarButton,topLeft,topRight,extra)
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
@@ -23,7 +23,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			state.Text = "DROP"
 		end
 	end) -- Makes a topbar button
-	
+
 	local State = Instance.new("TextLabel")
 	State.Name = "State"
 	State.Parent = ToggleButton:WaitForChild("Background")
@@ -33,7 +33,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	State.Position = UDim2.new(0.5, -1, 0.5, 0)
 	State.Size = UDim2.new(0.75, 0, 0.75, 0)
 	State.Font = Enum.Font.GothamBold
-	State.Text = "OFF"
+	State.Text = "DROP"
 	State.TextColor3 = Color3.fromRGB(255, 255, 255)
 	State.TextScaled = true
 	State.TextSize = 14
@@ -56,15 +56,16 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	coroutine.resume(coroutine.create(function()
 		while yield(0.01) do
 			if enabled then
-        local char = getCharacter()
-        if char and char:FindFirstChildOfClass("Humanoid").Health > 0 then
-          local moneyGun = char:FindFirstChildOfClass("[Money Gun]")
-          if moneyGun then
-            moneyGun:Activate()
-          end
-        end
-      end
+				local char = getCharacter()
+				if char and char:FindFirstChildOfClass("Humanoid").Health > 0 then
+					local moneyGun = char:FindFirstChildOfClass("[Money Gun]")
+					if moneyGun then
+						moneyGun:Activate()
+					end
+				end
+			end
 		end
 	end))
+	
 	ToggleButton.Parent = topLeft
 end)
