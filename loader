@@ -94,7 +94,7 @@ do
 		return Button
 	end
 
-	return setmetatable({
+	Loader = setmetatable({
 		-- Stuff will be added here in the future
 	},{
 		__call = function(_,placeId,name,initButton,code,raw)
@@ -205,3 +205,4 @@ do
 		end
 	})
 end
+
