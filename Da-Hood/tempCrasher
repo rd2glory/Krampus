@@ -1,6 +1,6 @@
 local plrs = game:GetService("Players")
 
-local plrCount = #plr:GetPlayers()
+local plrCount = #plrs:GetPlayers()
 
 if plrCount < 8 then
   local prefixe = "/"
