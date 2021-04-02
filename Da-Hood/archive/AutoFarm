@@ -1,0 +1,200 @@
+--// KRAMPUS \\--
+-- Da Hood Auto Farm Script v2.0
+-- obfuscating is for losers
+
+if not shared.KrampusLoader then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
+end
+
+shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,topRight,extra)
+	local workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+
+	local player = Players.LocalPlayer
+	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
+
+	local enabled = false
+	local ToggleButton = initTopBarButton(function(self)
+		enabled = not enabled
+		local state = self.Background.State
+		if enabled then
+			state.Text = "ON"
+			controls:Disable()
+		else
+			state.Text = "OFF"
+			controls:Enable()
+		end
+	end) -- Makes a topbar button
+	
+	local State = Instance.new("TextLabel")
+	State.Name = "State"
+	State.Parent = ToggleButton:WaitForChild("Background")
+	State.AnchorPoint = Vector2.new(0.5, 0.5)
+	State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	State.BackgroundTransparency = 1
+	State.Position = UDim2.new(0.5, -1, 0.5, 0)
+	State.Size = UDim2.new(0.75, 0, 0.75, 0)
+	State.Font = Enum.Font.GothamBold
+	State.Text = "OFF"
+	State.TextColor3 = Color3.fromRGB(255, 255, 255)
+	State.TextScaled = true
+	State.TextSize = 14
+	State.TextWrapped = true
+
+	local HB = RunService.Heartbeat
+
+	local afkPoint = CFrame.new(13,12,205)
+	local registerOffset = CFrame.new(0, -2.5, 3.5)
+
+	local cashiers = workspace:WaitForChild("Cashiers")
+	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
+	
+	local rad = math.rad
+
+	local function yield(length)
+		if length then
+			return wait(length)
+		else
+			return HB:wait()
+		end
+	end
+
+	local function getCharacter()
+		return player.Character or player.CharacterAdded:wait()
+	end
+
+	local function getRoot(arg)
+		local char = arg or getCharacter()
+		repeat yield() until not char or char.PrimaryPart
+		if char then
+			return char.PrimaryPart
+		end
+	end
+
+	local function getBoth()
+		local char = getCharacter()
+		local root = getRoot(char)
+		return char,root
+	end
+
+	local function resetCharacter()
+		local character = player.Character
+		if character then
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid and humanoid.Health > 0 then
+				humanoid.Health = 0
+			end
+			local shouldReturn = false
+			local charAdded = nil
+			charAdded = player.CharacterAdded:Connect(function(char)
+				character = char
+				repeat yield() until charAdded
+				charAdded:disconnect()
+				shouldReturn = true
+				return
+			end)
+			repeat yield() until shouldReturn
+			return
+		else
+			player:LoadCharacter()
+		end
+	end
+
+	local function getNearestRegister()
+		local character = getCharacter()
+		local root = character.PrimaryPart
+		if not root then return end
+		local rootPos = root.Position
+		local maxdistance = math.huge
+		local target
+		for _,register in pairs(cashiers:GetChildren()) do
+			if register:FindFirstChild("Head") and register:FindFirstChild("Humanoid") and register.Humanoid.Health > 0 then
+				local distance = (rootPos-register.Head.Position).magnitude
+				if distance < maxdistance then
+					target = register
+					maxdistance = distance
+				end
+			end
+		end
+		return target
+	end
+
+	coroutine.resume(coroutine.create(function()
+		while yield() do
+			if enabled then
+				local register = getNearestRegister()
+
+				local character = getCharacter()
+				local root = getRoot(character)
+
+				if root then
+					if register then
+						-- Opens the register
+						local first = true
+						repeat
+							yield()
+							pcall(
+								function()
+									character,root = getBoth()
+									local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+									if not Combat then
+										wait(0.5)
+										character,root = getBoth()
+										Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+										if not Combat then
+											resetCharacter()
+											return
+										end
+									end
+									root = getRoot()
+									local head = register.Head
+									local desiredCFrame = head.CFrame * registerOffset
+									if (root.Position-desiredCFrame.Position).magnitude>2 or first then
+										first = false
+										root.CFrame = desiredCFrame
+									end
+									root.CFrame = CFrame.new(root.Position) * CFrame.Angles(head.CFrame:ToOrientation())
+									Combat.Parent = character
+									Combat:Activate()
+								end
+							)
+						until not register or register.Humanoid.Health < 0
+
+						pcall(function()
+							character,root = getBoth()
+							for i, v in pairs(drops:GetDescendants()) do
+								if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
+									if (v.Parent.Position - root.Position).magnitude <= 18 then
+										repeat
+											character,root = getBoth()
+											yield()
+											fireclickdetector(v)
+										until not v or not v.Parent.Parent or (v.Parent.Position - root.Position).magnitude > 18
+									end
+								end
+							end
+						end)
+
+						yield(1.15)
+						if not enabled then
+							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+							if Combat then
+								Combat.Parent = player.Backpack
+							end
+						end
+					else
+						if (root.Position-afkPoint.Position).magnitude>3 then
+							character,root = getBoth()
+							root.CFrame = afkPoint
+						end
+					end
+				else
+					resetCharacter()
+				end
+				yield(0.05)
+			end
+		end
+	end))
+	ToggleButton.Parent = topLeft
+end)
