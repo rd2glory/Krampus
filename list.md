@@ -16,3 +16,10 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 ```
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Dupe-Setup",true))()
 ```
+
+### Modules
+
+**e**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/all",true))()
+```
