@@ -57,13 +57,13 @@ if not shared.KrampusLoader then
 		end)
 	end
 
-	local function createTopBarButton(onActivate)
+	local function createTopBarButton(name,onActivate)
 		local Button = Instance.new("Frame")
 		local Background = Instance.new("ImageButton")
 		local StateOverlay = Instance.new("ImageLabel")
 		local Input = Instance.new("TextButton")
 
-		Button.Name = "AutoFarm"
+		Button.Name = name
 		Button.BackgroundTransparency = 1
 		Button.LayoutOrder = 1
 		Button.Size = UDim2.new(0, 32, 1, 0)
