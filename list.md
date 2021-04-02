@@ -19,7 +19,27 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 
 ### Modules
 
-**e**
+**Misc**
 ```
-loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/all",true))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Misc",true))()
+```
+
+**Auto Farm**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/AutoFarm",true))()
+```
+
+**Server Crasher**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Server-Crasher",true))()
+```
+
+**Money Gun**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Money-Gun",true))()
+```
+
+**Pick Up**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Pick-Up",true))()
 ```
