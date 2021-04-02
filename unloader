@@ -1,0 +1,10 @@
+shared.KrampusLoaded = nil
+pcall(function()
+  shared.KrampusUpdate:disconnect()
+end)
+shared.KrampusUpdate = nil
+shared.KrampusModules = nil
+pcall(function()
+  shared.Krampus:destroy()
+end)
+shared.Krampus = nil
