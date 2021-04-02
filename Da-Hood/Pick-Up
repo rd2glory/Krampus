@@ -1,5 +1,5 @@
 --// KRAMPUS \\--
--- Da Hood Auto Farm Script v2.0
+-- Da Hood Pick Up Script v1.0
 -- obfuscating is for losers
 
 if not shared.KrampusLoader then
