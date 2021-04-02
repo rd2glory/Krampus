@@ -1,5 +1,5 @@
 if not shared.KrampusLoader then
-	local version = "1.3"
+	local version = "1.5"
 
 	local StarterGui = game:GetService("StarterGui")
 	local GuiService = game:GetService("GuiService")
@@ -217,4 +217,3 @@ if not shared.KrampusLoader then
 		end
 	})
 end
-
