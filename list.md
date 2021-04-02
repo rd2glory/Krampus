@@ -1,5 +1,19 @@
 # Krampus Hacks List
 
+## Global Scripts
+
+**Load Loader**
+```
+-- Do keep in mind that each module does this automatically, only use this to force load the loader, like when there is an update.
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/main",true))()
+```
+
+**Unloader**
+```
+-- This will unload all loaded modules
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/unloader",true))()
+```
+
 ## Da Hood
 
 **Main**
