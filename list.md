@@ -10,7 +10,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 
 **Unloader**
 ```
--- This will unload all loaded modules
+-- This will unload all loaded modules AND the Krampus loader
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/unloader",true))()
 ```
 
