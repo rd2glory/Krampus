@@ -1,5 +1,5 @@
 --// KRAMPUS \\--
--- Da Hood Auto Farm Script v2.0
+-- Da Hood Auto Farm Script v3.0
 -- obfuscating is for losers
 
 if not shared.KrampusLoader then
@@ -44,8 +44,8 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 	local HB = RunService.Heartbeat
 
-	local afkPoint = CFrame.new(13,12,205)
-	local registerOffset = CFrame.new(0, -2.5, 3.5)
+	local afkPoint = CFrame.new(-798.5,-39.425,-843.75)--CFrame.new(13,12,205)
+	local registerOffset = CFrame.new(0.65, -2, 1)
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
@@ -94,7 +94,11 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 				shouldReturn = true
 				return
 			end)
-			repeat yield() until shouldReturn
+			local st = os.clock()
+			repeat yield() until shouldReturn or os.clock()-st > 15
+			pcall(function()
+			    charAdded:disconnect()
+			end)
 			return
 		else
 			player:LoadCharacter()
@@ -121,17 +125,27 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	end
 
 	coroutine.resume(coroutine.create(function()
+	    local character,root = getBoth()
+	    
+	    local goal = nil
+	    
+	    local update = HB:Connect(function()
+		    if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
+				root.CFrame = goal
+			end
+		end)
+	    
 		while yield() do
 			if enabled then
 				local register = getNearestRegister()
 
-				local character = getCharacter()
-				local root = getRoot(character)
-
+				character,root = getBoth()
+                
 				if root then
 					if register then
 						-- Opens the register
-						local first = true
+						goal = register.Head.CFrame * registerOffset
+						
 						repeat
 							yield()
 							pcall(function()
@@ -155,19 +169,13 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 										return
 									end
 								end
-								root = getRoot()
-								local head = register.Head
-								local desiredCFrame = head.CFrame * registerOffset
-								if (root.Position-desiredCFrame.Position).magnitude>2 or first then
-									first = false
-									root.CFrame = desiredCFrame
-								end
-								root.CFrame = CFrame.new(root.Position) * CFrame.Angles(head.CFrame:ToOrientation())
+								character,root = getBoth()
 								Combat.Parent = character
-								Combat:Activate()
+								if character and character:FindFirstChildOfClass("Humanoid").Health > 0 then
+								    Combat:Activate()
+								end
 							end)
 						until not enabled or (not register or register.Humanoid.Health < 0)
-						
 						pcall(function()
 							if not enabled then
 								return
@@ -194,6 +202,10 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						if enabled then
 							yield(1.15)
 						else
+						    character,root = getRoot()
+						    if root then
+						        root.Anchored = false
+						    end
 							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 							if Combat then
 								Combat.Parent = player.Backpack
@@ -201,14 +213,13 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						end
 					else
 						if (root.Position-afkPoint.Position).magnitude>3 then
-							character,root = getBoth()
-							root.CFrame = afkPoint
+							goal = afkPoint
 						end
 					end
 				else
 					resetCharacter()
 				end
-				yield(0.05)
+				yield()
 			end
 		end
 	end))
