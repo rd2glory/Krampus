@@ -50,8 +50,6 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
 
-	local rad = math.rad
-
 	local function yield(length)
 		if length then
 			return wait(length)
@@ -97,7 +95,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			local st = os.clock()
 			repeat yield() until shouldReturn or os.clock()-st > 15
 			pcall(function()
-			    charAdded:disconnect()
+				charAdded:disconnect()
 			end)
 			return
 		else
@@ -125,27 +123,27 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	end
 
 	coroutine.resume(coroutine.create(function()
-	    local character,root = getBoth()
-	    
-	    local goal = nil
-	    
-	    local update = HB:Connect(function()
-		    if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
+		local character,root = getBoth()
+
+		local goal = nil
+
+		local update = HB:Connect(function()
+			if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
 				root.CFrame = goal
 			end
 		end)
-	    
+
 		while yield() do
 			if enabled then
 				local register = getNearestRegister()
 
 				character,root = getBoth()
-                
+
 				if root then
 					if register then
 						-- Opens the register
 						goal = register.Head.CFrame * registerOffset
-						
+
 						repeat
 							yield()
 							pcall(function()
@@ -172,7 +170,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 								character,root = getBoth()
 								Combat.Parent = character
 								if character and character:FindFirstChildOfClass("Humanoid").Health > 0 then
-								    Combat:Activate()
+									Combat:Activate()
 								end
 							end)
 						until not enabled or (not register or register.Humanoid.Health < 0)
@@ -202,10 +200,10 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						if enabled then
 							yield(1.15)
 						else
-						    character,root = getRoot()
-						    if root then
-						        root.Anchored = false
-						    end
+							character,root = getRoot()
+							if root then
+								root.Anchored = false
+							end
 							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 							if Combat then
 								Combat.Parent = player.Backpack
