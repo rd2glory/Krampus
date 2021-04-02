@@ -14,7 +14,7 @@ shared.KrampusLoader(2788229376,"Server Crasher",function(initTopBarButton,topLe
 	local player = Players.LocalPlayer
 	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
 	
-	local crashServer = loadstring(game:HttpGet("https://raw.githubusercontent.com/Compwnter/servercrasher/main/master.lua")) -- Credit to Compwnter
+	local crashServer = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/tempCrasher"))
 
 	local enabled = false
 	local ToggleButton = initTopBarButton(function()
