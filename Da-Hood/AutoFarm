@@ -26,7 +26,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			controls:Enable()
 		end
 	end) -- Makes a topbar button
-	
+
 	local State = Instance.new("TextLabel")
 	State.Name = "State"
 	State.Parent = ToggleButton:WaitForChild("Background")
@@ -49,7 +49,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
-	
+
 	local rad = math.rad
 
 	local function yield(length)
@@ -134,39 +134,55 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						local first = true
 						repeat
 							yield()
-							pcall(
-								function()
-									character,root = getBoth()
-									local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
-									if not Combat then
-										wait(0.5)
-										character,root = getBoth()
-										Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
-										if not Combat then
-											resetCharacter()
-											return
-										end
-									end
-									root = getRoot()
-									local head = register.Head
-									local desiredCFrame = head.CFrame * registerOffset
-									if (root.Position-desiredCFrame.Position).magnitude>2 or first then
-										first = false
-										root.CFrame = desiredCFrame
-									end
-									root.CFrame = CFrame.new(root.Position) * CFrame.Angles(head.CFrame:ToOrientation())
-									Combat.Parent = character
-									Combat:Activate()
+							pcall(function()
+								if not enabled then
+									return
 								end
-							)
-						until not register or register.Humanoid.Health < 0
-
+								character,root = getBoth()
+								local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+								if not Combat then
+									if not enabled then
+										return
+									end
+									wait(1)
+									if not enabled then
+										return
+									end
+									character,root = getBoth()
+									Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+									if not Combat and enabled then
+										resetCharacter()
+										return
+									end
+								end
+								root = getRoot()
+								local head = register.Head
+								local desiredCFrame = head.CFrame * registerOffset
+								if (root.Position-desiredCFrame.Position).magnitude>2 or first then
+									first = false
+									root.CFrame = desiredCFrame
+								end
+								root.CFrame = CFrame.new(root.Position) * CFrame.Angles(head.CFrame:ToOrientation())
+								Combat.Parent = character
+								Combat:Activate()
+							end)
+						until not enabled or (not register or register.Humanoid.Health < 0)
+						
 						pcall(function()
+							if not enabled then
+								return
+							end
 							character,root = getBoth()
 							for i, v in pairs(drops:GetDescendants()) do
+								if not enabled then
+									return
+								end
 								if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
 									if (v.Parent.Position - root.Position).magnitude <= 18 then
 										repeat
+											if not enabled then
+												return
+											end
 											character,root = getBoth()
 											yield()
 											fireclickdetector(v)
@@ -175,9 +191,9 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 								end
 							end
 						end)
-
-						yield(1.15)
-						if not enabled then
+						if enabled then
+							yield(1.15)
+						else
 							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 							if Combat then
 								Combat.Parent = player.Backpack
