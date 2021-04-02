@@ -25,7 +25,7 @@ if not shared.KrampusLoader then
 			Duration = 3,
 		})
 	end
-	
+
 	local function validPlace(id)
 		return id == -1 or game.PlaceId == id
 	end
@@ -57,53 +57,53 @@ if not shared.KrampusLoader then
 		end)
 	end
 
-	local function createTopBarButton(name,onActivate)
-		local Button = Instance.new("Frame")
-		local Background = Instance.new("ImageButton")
-		local StateOverlay = Instance.new("ImageLabel")
-		local Input = Instance.new("TextButton")
-
-		Button.Name = name
-		Button.BackgroundTransparency = 1
-		Button.LayoutOrder = 1
-		Button.Size = UDim2.new(0, 32, 1, 0)
-
-		Background.Name = "Background"
-		Background.Parent = Button
-		Background.AnchorPoint = Vector2.new(0, 1)
-		Background.BackgroundTransparency = 1
-		Background.Position = UDim2.new(0, 0, 1, 0)
-		Background.Size = UDim2.new(0, 32, 0, 32)
-		Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
-
-		StateOverlay.Name = "StateOverlay"
-		StateOverlay.Parent = Background
-		StateOverlay.BackgroundTransparency = 1
-		StateOverlay.Size = UDim2.new(1, 0, 1, 0)
-		StateOverlay.ZIndex = 2
-		StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_2.png"
-		StateOverlay.ImageRectOffset = Vector2.new(98, 493)
-		StateOverlay.ImageRectSize = Vector2.new(17, 17)
-		StateOverlay.ImageTransparency = 1
-		StateOverlay.ScaleType = Enum.ScaleType.Slice
-		StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
-
-		Input.Name = "Input"
-		Input.Parent = Button
-		Input.BackgroundTransparency = 1
-		Input.Size = UDim2.new(1, 0, 1, 0)
-		Input.Text = ""
-		
-		listen(Button,onActivate)
-
-		return Button
-	end
-
 	shared.KrampusLoader = setmetatable({
 		-- Stuff will be added here in the future
 	},{
 		__call = function(_,placeId,name,code)
 			repeat yield() until game:IsLoaded()
+
+			local function createTopBarButton(onActivate)
+				local Button = Instance.new("Frame")
+				local Background = Instance.new("ImageButton")
+				local StateOverlay = Instance.new("ImageLabel")
+				local Input = Instance.new("TextButton")
+
+				Button.Name = name
+				Button.BackgroundTransparency = 1
+				Button.LayoutOrder = 1
+				Button.Size = UDim2.new(0, 32, 1, 0)
+
+				Background.Name = "Background"
+				Background.Parent = Button
+				Background.AnchorPoint = Vector2.new(0, 1)
+				Background.BackgroundTransparency = 1
+				Background.Position = UDim2.new(0, 0, 1, 0)
+				Background.Size = UDim2.new(0, 32, 0, 32)
+				Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
+
+				StateOverlay.Name = "StateOverlay"
+				StateOverlay.Parent = Background
+				StateOverlay.BackgroundTransparency = 1
+				StateOverlay.Size = UDim2.new(1, 0, 1, 0)
+				StateOverlay.ZIndex = 2
+				StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_2.png"
+				StateOverlay.ImageRectOffset = Vector2.new(98, 493)
+				StateOverlay.ImageRectSize = Vector2.new(17, 17)
+				StateOverlay.ImageTransparency = 1
+				StateOverlay.ScaleType = Enum.ScaleType.Slice
+				StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
+
+				Input.Name = "Input"
+				Input.Parent = Button
+				Input.BackgroundTransparency = 1
+				Input.Size = UDim2.new(1, 0, 1, 0)
+				Input.Text = ""
+
+				listen(Button,onActivate)
+
+				return Button
+			end
 
 			local KrampusLoaded = shared.KrampusLoaded
 			if not KrampusLoaded then
@@ -185,7 +185,7 @@ if not shared.KrampusLoader then
 
 				Krampus.Parent = CoreGui
 				shared.Krampus = Krampus
-				
+
 				shared.KrampusUpdate = HB:Connect(function()
 					if not GuiService.MenuIsOpen then
 						TopBarFrame.Visible = true
@@ -207,9 +207,7 @@ if not shared.KrampusLoader then
 				local left = TopBar:WaitForChild("LeftFrame")
 				local right = TopBar:WaitForChild("RightFrame")
 				local extra = Krampus:WaitForChild("ExtraFrame")
-				code(function(...)
-					createTopBarButton(name,...)
-				end,left,right,extra)
+				code(createTopBarButton,left,right,extra)
 				sendNotif("Successfully loaded!",name.." has been loaded","Loaded "..name)
 			elseif not validPlace(placeId) then
 				sendNotif("Failed to load!","Invalid place Id","Module "..name.." can not be loaded in this place")
