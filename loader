@@ -1,5 +1,5 @@
 if not shared.KrampusLoader then
-	local version = "1.2"
+	local version = "1.25"
 
 	local StarterGui = game:GetService("StarterGui")
 	local GuiService = game:GetService("GuiService")
@@ -186,7 +186,7 @@ if not shared.KrampusLoader then
 				Krampus.Parent = CoreGui
 				shared.Krampus = Krampus
 				
-				HB:Connect(function()
+				shared.KrampusUpdate = HB:Connect(function()
 					if not GuiService.MenuIsOpen then
 						TopBarFrame.Visible = true
 					else
@@ -207,7 +207,9 @@ if not shared.KrampusLoader then
 				local left = TopBar:WaitForChild("LeftFrame")
 				local right = TopBar:WaitForChild("RightFrame")
 				local extra = Krampus:WaitForChild("ExtraFrame")
-				code(createTopBarButton,left,right,extra)
+				code(function(...)
+					code(name,...)
+				end,left,right,extra)
 				sendNotif("Successfully loaded!",name.." has been loaded","Loaded "..name)
 			elseif not validPlace(placeId) then
 				sendNotif("Failed to load!","Invalid place Id","Module "..name.." can not be loaded in this place")
