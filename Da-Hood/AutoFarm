@@ -45,7 +45,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	local HB = RunService.Heartbeat
 
 	local afkPoint = CFrame.new(-798.5,-39.425,-843.75)--CFrame.new(13,12,205)
-	local registerOffset = CFrame.new(0.65, -2, 1)
+	local registerOffset = CFrame.new(0, -2, 1)
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
