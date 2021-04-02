@@ -170,7 +170,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 											character,root = getBoth()
 											yield()
 											fireclickdetector(v)
-										until not v or not v.Parent.Parent
+										until not v or not v.Parent.Parent or (v.Parent.Position - root.Position).magnitude > 18
 									end
 								end
 							end
