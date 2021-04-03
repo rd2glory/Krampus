@@ -1,5 +1,5 @@
 --// KRAMPUS \\--
--- Da Hood Auto Farm Script v3.0
+-- Da Hood Auto Farm Script v3.1
 -- obfuscating is for losers
 
 if not shared.KrampusLoader then
@@ -50,6 +50,8 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
 
+	local start = os.clock()
+
 	local function yield(length)
 		if length then
 			return wait(length)
@@ -97,6 +99,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			pcall(function()
 				charAdded:disconnect()
 			end)
+			start = os.clock()
 			return
 		else
 			player:LoadCharacter()
@@ -128,7 +131,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 		local goal = nil
 
 		local update = HB:Connect(function()
-			if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
+			if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid") and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
 				root.CFrame = goal
 			end
 		end)
@@ -144,13 +147,28 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						-- Opens the register
 						goal = register.Head.CFrame * registerOffset
 
+						start = os.clock()
+
 						repeat
 							yield()
 							pcall(function()
 								if not enabled then
 									return
 								end
-								character,root = getBoth()
+								while true do
+									character,root = getBoth()
+
+									if character then
+										local humanoid = character:FindFirstChildOfClass("Humanoid")
+										if humanoid and humanoid.Health > 0 then
+											break
+										else
+										    start = os.clock()
+										end
+									end
+
+									HB:wait()
+								end
 								local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 								if not Combat then
 									if not enabled then
@@ -165,10 +183,18 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 									if not Combat and enabled then
 										resetCharacter()
 										return
+									else
+									    start = os.clock()
 									end
 								end
 								character,root = getBoth()
 								Combat.Parent = character
+
+								if os.clock()-start > 8 then
+									resetCharacter()
+									return
+								end
+
 								if character and character:FindFirstChildOfClass("Humanoid").Health > 0 then
 									Combat:Activate()
 								end
@@ -186,7 +212,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 								if v:IsA("ClickDetector") and v.Parent and v.Parent.Name:find("Money") then
 									if (v.Parent.Position - root.Position).magnitude <= 18 then
 										repeat
-											if not enabled then
+											if not enabled or (v.Parent.Position - root.Position).magnitude >= 18 then
 												return
 											end
 											character,root = getBoth()
