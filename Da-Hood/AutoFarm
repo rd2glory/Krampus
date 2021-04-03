@@ -1,5 +1,5 @@
 --// KRAMPUS \\--
--- Da Hood Auto Farm Script v3.1
+-- Da Hood Auto Farm Script v3.2
 -- obfuscating is for losers
 
 if not shared.KrampusLoader then
@@ -105,7 +105,39 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			player:LoadCharacter()
 		end
 	end
+	
+	local function mobile()
+		local char = getCharacter()
 
+		if char then
+
+			local humanoid = char:FindFirstChildOfClass("Humanoid")
+
+			if humanoid and humanoid.Health > 0 then
+
+				local torso = char:FindFirstChild("UpperTorso") or char:FindFirstChild("Torso")
+
+				if torso then
+					local motor = torso:FindFirstChildOfClass("Motor6D")
+
+					if motor then
+						return true
+					else
+						return false
+					end
+				else
+					return false
+				end
+
+			else
+				return false
+			end
+
+		else
+			return false
+		end
+	end
+	
 	local function getNearestRegister()
 		local character = getCharacter()
 		local root = character.PrimaryPart
@@ -131,8 +163,14 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 		local goal = nil
 
 		local update = HB:Connect(function()
+			character,root = getBoth()
 			if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid") and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
 				root.CFrame = goal
+				-- Holds out money just cuz why not
+				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
+				if Wallet and character then
+					Wallet.Parent = character
+				end
 			end
 		end)
 
@@ -160,10 +198,10 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 									if character then
 										local humanoid = character:FindFirstChildOfClass("Humanoid")
-										if humanoid and humanoid.Health > 0 then
+										if mobile() then
 											break
 										else
-										    start = os.clock()
+											start = os.clock()
 										end
 									end
 
@@ -184,9 +222,10 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 										resetCharacter()
 										return
 									else
-									    start = os.clock()
+										start = os.clock()
 									end
 								end
+
 								character,root = getBoth()
 								Combat.Parent = character
 
@@ -195,7 +234,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 									return
 								end
 
-								if character and character:FindFirstChildOfClass("Humanoid").Health > 0 then
+								if mobile() then
 									Combat:Activate()
 								end
 							end)
@@ -216,7 +255,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 												return
 											end
 											character,root = getBoth()
-											yield()
+											yield(0.15)
 											fireclickdetector(v)
 										until not v or not v.Parent.Parent or (v.Parent.Position - root.Position).magnitude > 18
 									end
@@ -233,6 +272,10 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 							local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 							if Combat then
 								Combat.Parent = player.Backpack
+							end
+							local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
+							if Wallet then
+								Wallet.Parent = player.Backpack
 							end
 						end
 					else
