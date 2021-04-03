@@ -23,6 +23,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/main",true))()
 ```
 
+**Favorite**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Favorite",true))()
+```
+
 **All**
 ```
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/all",true))()
