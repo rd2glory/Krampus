@@ -8,3 +8,4 @@ pcall(function()
   shared.Krampus:destroy()
 end)
 shared.Krampus = nil
+shared.KrampusLoader = nil
