@@ -194,7 +194,7 @@ if not shared.KrampusLoader then
 					end
 				end)
 
-				sendNotif("Krampus Loaded","Successfully loaded v"..version,"Successfully loaded Krampus")
+				sendNotif("Krampus v"..version.." Loaded","Made by iamtryingtofindname","Successfully loaded Krampus v"..version)
 			end
 
 			shared.KrampusModules = shared.KrampusModules or {}
