@@ -46,6 +46,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 	local afkPoint = CFrame.new(-798.5,-39.425,-843.75)--CFrame.new(13,12,205)
 	local registerOffset = CFrame.new(0, -2, 1)
+	local pickupCooldown = 0.05
 
 	local cashiers = workspace:WaitForChild("Cashiers")
 	local drops = workspace:WaitForChild("Ignored"):WaitForChild("Drop")
@@ -255,7 +256,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 												return
 											end
 											character,root = getBoth()
-											yield(0.15)
+											yield(pickupCooldown)
 											fireclickdetector(v)
 										until not v or not v.Parent.Parent or (v.Parent.Position - root.Position).magnitude > 18
 									end
