@@ -10,7 +10,9 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 	local workspace = game:GetService("Workspace")
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
-
+	
+	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
+	
 	local player = Players.LocalPlayer
 
 	local click = game.Workspace.Ignored.Shop['[Surgeon Mask] - $25'].ClickDetector
@@ -57,6 +59,7 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 	end
 
 	local function hide(char)
+		controls:Disable()
 		local s,e = pcall(function()
 			for _,v in pairs(char:GetDescendants()) do
 				if (v:IsA("Decal") or v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors")) and v.Name ~= "In-gameMask" then
@@ -83,6 +86,9 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 				activateMask(char)
 			end
 		end)
+		if not shared.__farm then
+			controls:Enable()
+		end
 		if not s then warn(e) end
 	end
 
