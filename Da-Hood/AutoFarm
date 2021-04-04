@@ -17,6 +17,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	local enabled = false
 	local ToggleButton = initTopBarButton(function(self)
 		enabled = not enabled
+		shared.__farm = enabled
 		local state = self.Background.State
 		if enabled then
 			state.Text = "ON"
@@ -166,7 +167,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 		local update = HB:Connect(function()
 			character,root = getBoth()
-			if enabled and not pause and goal and (character and character:FindFirstChildOfClass("Humanoid") and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
+			if enabled and not pause and goal and char and root and mobile() then
 				root.CFrame = goal
 				-- Holds out money just cuz why not
 				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
