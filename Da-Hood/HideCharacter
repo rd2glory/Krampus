@@ -88,7 +88,11 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 
 	player.CharacterAdded:Connect(function(char)
 		clearcache()
-		wait(0.75)
+		if shared.__farm then
+			wait(1.75)
+		else
+			wait(0.75)
+		end
 		if enabled then
 			hide(char)
 		end
