@@ -1,0 +1,27 @@
+local plr = game.Players.LocalPlayer
+local char = plr.Character or plr.CharacterAdded:wait()
+
+for _,v in pairs(char:GetDescendants()) do
+	if v:IsA("Decal") or v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors") then
+		v:destroy()
+	end
+end
+
+local pos = char.PrimaryPart.Position
+char.PrimaryPart.CFrame = CFrame.new(605.025513, 49.0000458, -267.874573)
+local click = game.Workspace.Ignored.Shop['[Surgeon Mask] - $25'].ClickDetector
+wait(0.5)
+fireclickdetector(click)
+fireclickdetector(click)
+wait(0.5)
+char.PrimaryPart.CFrame = CFrame.new(pos)
+local mask = char:FindFirstChild("Mask") or plr.Backpack:FindFirstChild("Mask")
+if mask then
+    mask.Parent = char
+    wait()
+    mask:Activate()
+    wait(0.5)
+    mask:destroy()
+else
+    warn("Mask not found")
+end
