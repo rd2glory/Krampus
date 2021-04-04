@@ -100,6 +100,7 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 		if db then return end
 		db = true
 		enabled = not enabled
+		shared.__hide = enabled
 		if enabled then
 			State.Text = "SHOW"
 			local char = player.Character
