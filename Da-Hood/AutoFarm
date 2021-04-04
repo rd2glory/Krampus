@@ -167,7 +167,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 		local update = HB:Connect(function()
 			character,root = getBoth()
-			if enabled and not pause and goal and char and root and mobile() then
+			if enabled and not pause and goal and character and root and mobile() then
 				root.CFrame = goal
 				-- Holds out money just cuz why not
 				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
