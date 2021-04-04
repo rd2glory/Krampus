@@ -202,6 +202,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 										if mobile() then
 											break
 										else
+											didWait = true
 											start = os.clock()
 										end
 									end
