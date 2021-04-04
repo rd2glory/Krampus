@@ -194,19 +194,21 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 								if not enabled then
 									return
 								end
-								while true do
+								local didWait = false
+								while HB:wait() do
 									character,root = getBoth()
 
 									if character then
-										local humanoid = character:FindFirstChildOfClass("Humanoid")
 										if mobile() then
 											break
 										else
+											didWait = true
 											start = os.clock()
 										end
 									end
-
-									HB:wait()
+								end
+								if didWait then
+									wait(3)
 								end
 								local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 								if not Combat then
