@@ -59,7 +59,7 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 	local function hide(char)
 		local s,e = pcall(function()
 			for _,v in pairs(char:GetDescendants()) do
-				if v:IsA("Decal") or v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors") then
+				if (v:IsA("Decal") or v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors")) and v.Name ~= "In-gameMask" then
 					table.insert(cache,v)
 					parents[v] = v.Parent
 					v.Parent = nil
