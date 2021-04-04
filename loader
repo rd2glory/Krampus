@@ -1,10 +1,13 @@
 if not shared.KrampusLoader then
 	local version = "1.6"
 
+	local Players = game:GetService("Players")
 	local StarterGui = game:GetService("StarterGui")
 	local GuiService = game:GetService("GuiService")
 	local CoreGui = game:GetService("CoreGui")
 	local HB = game:GetService("RunService").Heartbeat
+	
+	local plr = Players.LocalPlayer
 
 	local black = Color3.new(0,0,0)
 	local white = Color3.new(1,1,1)
@@ -55,6 +58,25 @@ if not shared.KrampusLoader then
 			overlay.ImageColor3 = white
 			overlay.ImageTransparency = 1
 		end)
+	end
+	
+	local s,e = pcall(function()
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/staff",true))()
+	end)
+	
+	if s then
+		-- Loaded staff list
+		local function HandlePlayer(other)
+			if table.find(shared.KnownStaff,other.UserId) then
+				-- this dude is a staff member
+				plr:Kick("Krampus has just saved your life! "..other.Name.." is a known staff member and has just joined your game! Please rejoin a different server.")
+			end
+		end
+		
+	else
+		local logMessage = "We have been unable to load a known staff list for this game. You are nonw vulnerable to staff members. This might be solved by rejoining. If the error persists, then it is a problem on our end. Give us a but to fix it. Here is the full error log: "..e
+		
+		sendNotif("Failed to load known staff list!","Full details in console (F9)",logMessage)
 	end
 
 	shared.KrampusLoader = setmetatable({
