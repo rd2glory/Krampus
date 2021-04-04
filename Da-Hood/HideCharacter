@@ -1,0 +1,149 @@
+--// KRAMPUS \\--
+-- Da Hood Character Hider Script v1.0
+-- obfuscating is for losers
+
+if not shared.KrampusLoader then
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/loader",true))()
+end
+
+shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topLeft,topRight,extra)
+	local workspace = game:GetService("Workspace")
+	local Players = game:GetService("Players")
+	local RunService = game:GetService("RunService")
+
+	local player = Players.LocalPlayer
+
+	local click = game.Workspace.Ignored.Shop['[Surgeon Mask] - $25'].ClickDetector
+
+	local enabled = false
+	local db = false
+
+	local HB = RunService.Heartbeat
+
+	local cache = {}
+	local parents = {}
+	local cachedMask = nil
+
+	-- bro
+
+	local function clearcache()
+		cache = {}
+		for _,v in pairs(cache) do
+			v:destroy()
+		end
+		pcall(function()
+		    cachedMask:destroy()
+		end)
+		cachedMask = nil
+		parents = {}
+	end
+	
+	local function purchaseMask(char)
+		local pos = char.PrimaryPart.Position
+		char.PrimaryPart.CFrame = CFrame.new(605.025513, 49.0000458, -267.874573)
+		wait(0.5)
+		fireclickdetector(click)
+		fireclickdetector(click)
+		wait(0.5)
+		char.PrimaryPart.CFrame = CFrame.new(pos)
+	end
+	
+	local function activateMask(char)
+		cachedMask.Parent = char
+		wait()
+		cachedMask:Activate()
+		wait(0.5)
+		cachedMask.Parent = player
+	end
+
+	local function hide(char)
+		local s,e = pcall(function()
+			for _,v in pairs(char:GetDescendants()) do
+				if v:IsA("Decal") or v:IsA("Accessory") or v:IsA("Shirt") or v:IsA("Pants") or v:IsA("BodyColors") then
+					table.insert(cache,v)
+					parents[v] = v.Parent
+					v.Parent = nil
+				end
+			end
+			
+			local oldMask = char:FindFirstChild("In-gameMask")
+			
+			if not oldMask then
+				
+				if not cachedMask then
+					purchaseMask(char)
+					cachedMask = char:FindFirstChild("Mask") or player.Backpack:FindFirstChild("Mask")
+				end
+				
+				if not cachedMask then
+					warn("Couldn't find mask!")
+					return
+				end
+
+				activateMask(char)
+			end
+		end)
+		if not s then warn(e) end
+	end
+
+	player.CharacterAdded:Connect(function(char)
+		clearcache()
+		wait(0.75)
+		if enabled then
+			hide(char)
+		end
+	end)
+
+	local State = Instance.new("TextLabel")
+
+	local ToggleButton = initTopBarButton(function(self)
+		if db then return end
+		db = true
+		enabled = not enabled
+		if enabled then
+			State.Text = "SHOW"
+			local char = player.Character
+			if char then
+				hide(char)
+			end
+		else
+			State.Text = "HIDE"
+
+			local char = player.Character
+
+			if char then
+				local existingMask = char:FindFirstChild("In-gameMask")
+				if existingMask then
+					
+					if not cachedMask then
+						purchaseMask(char)
+						cachedMask = char:FindFirstChild("Mask") or player.Backpack:FindFirstChild("Mask")
+					end
+
+					activateMask(char)
+				end
+
+				for _,v in pairs(cache) do
+					v.Parent = parents[v]
+				end
+			end
+		end
+		db = false
+	end) -- Makes a topbar button
+
+	State.Name = "State"
+	State.Parent = ToggleButton:WaitForChild("Background")
+	State.AnchorPoint = Vector2.new(0.5, 0.5)
+	State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	State.BackgroundTransparency = 1
+	State.Position = UDim2.new(0.5, -1, 0.5, 0)
+	State.Size = UDim2.new(0.75, 0, 0.75, 0)
+	State.Font = Enum.Font.GothamBold
+	State.Text = "HIDE"
+	State.TextColor3 = Color3.fromRGB(255, 255, 255)
+	State.TextScaled = true
+	State.TextSize = 14
+	State.TextWrapped = true
+
+	ToggleButton.Parent = topLeft
+end)
