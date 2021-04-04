@@ -11,9 +11,9 @@ shared.KrampusLoader(2788229376,"Character Hider",function(initTopBarButton,topL
 	local Players = game:GetService("Players")
 	local RunService = game:GetService("RunService")
 	
-	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
-	
 	local player = Players.LocalPlayer
+	
+	local controls = require(player:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule")):GetControls()
 
 	local click = game.Workspace.Ignored.Shop['[Surgeon Mask] - $25'].ClickDetector
 
