@@ -162,10 +162,11 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 		local character,root = getBoth()
 
 		local goal = nil
+		local pause = false
 
 		local update = HB:Connect(function()
 			character,root = getBoth()
-			if enabled and goal and (character and character:FindFirstChildOfClass("Humanoid") and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
+			if enabled and not pause and goal and (character and character:FindFirstChildOfClass("Humanoid") and character:FindFirstChildOfClass("Humanoid").Health > 0) and root then
 				root.CFrame = goal
 				-- Holds out money just cuz why not
 				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
@@ -208,7 +209,9 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 									end
 								end
 								if didWait and shared.__hide then
+									pause = true
 									wait(3)
+									pause = false
 								end
 								local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
 								if not Combat then
