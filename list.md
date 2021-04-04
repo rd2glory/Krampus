@@ -60,6 +60,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Server-Crasher",true))()
 ```
 
+**Character Hider**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/HideCharacter",true))()
+```
+
 **Money Gun**
 ```
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Money-Gun",true))()
