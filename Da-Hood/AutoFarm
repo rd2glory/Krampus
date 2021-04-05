@@ -303,7 +303,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 							inAfkSpot = true
 						end
 						if (root.Position-afkPoint.Position).magnitude>3 then
-							goal = afkPoint + Vector3.new(offset)
+							goal = afkPoint + offset
 						end
 					end
 				else
