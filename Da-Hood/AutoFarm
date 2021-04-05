@@ -1,5 +1,5 @@
 --// KRAMPUS \\--
--- Da Hood Auto Farm Script v3.2
+-- Da Hood Auto Farm Script v3.4
 -- obfuscating is for losers
 
 if not shared.KrampusLoader then
@@ -171,8 +171,14 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 				root.CFrame = goal
 				-- Holds out money just cuz why not
 				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
+				local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
+				
 				if Wallet and character then
 					Wallet.Parent = character
+				end
+
+				if Combat and character then
+					Combat.Parent = character
 				end
 			end
 		end)
