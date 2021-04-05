@@ -79,6 +79,13 @@ if not shared.KrampusLoader then
 			end
 		end
 		
+		
+		for _,v in pairs(Players:GetPlayers()) do
+			coroutine.wrap(function()
+				HandlePlayer(v)
+			end)()
+		end
+		Players.PlayerAdded:Connect(HandlePlayer)
 	else
 		local logMessage = "We have been unable to load a known staff list for this game. You are nonw vulnerable to staff members. This might be solved by rejoining. If the error persists, then it is a problem on our end. Give us a but to fix it. Here is the full error log: "..e
 		
