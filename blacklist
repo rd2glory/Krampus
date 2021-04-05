@@ -8,6 +8,10 @@ local blacklist = {
 			2,
 		}
 	};
+	{
+		UserId = 2063482249;
+		Reason = "hey sofia";
+	};
 }
 
 shared.blacklist = blacklist
