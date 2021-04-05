@@ -107,6 +107,24 @@ for _,v in pairs(list) do
 	end
 end
 
+-- Kick spoofer
+local raw = getrawmetatable(game)
+local old = raw.__namecall
+setreadonly(raw, false)
+raw.__namecall = newcclosure(function(name, ...)
+	local tabs = {...}
+	if getnamecallmethod() == "FireServer" and tostring(name) == "MainEvent" then
+		if tabs[1] == "CHECKER_1" or tabs[1] == "TeleportDetect" or tabs[1] == "OneMoreTime" then
+			return wait(9e9)
+		end
+	end
+	if getnamecallmethod() == "Kick" then
+		return wait(9e9)
+	end
+	return old(name, unpack(tabs))
+end)
+setreadonly(raw, true)
+
 -- Actual loader
 shared.KrampusLoader = setmetatable({
 	log = log;
