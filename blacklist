@@ -7,7 +7,7 @@ local blacklist = {
 			1,
 			2,
 		}
-	}
+	};
 }
 
 shared.blacklist = blacklist
