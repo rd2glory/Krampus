@@ -300,6 +300,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 					else
 						if not inAfkSpot then
 							-- Come up with a new offset
+							print("New offset!")
 							offset = Vector3.new(generator:NextNumber(-afkOffset.x,afkOffset.x),generator:NextNumber(-afkOffset.y,afkOffset.y),generator:NextNumber(-afkOffset.z,afkOffset.z))
 							inAfkSpot = true
 						end
