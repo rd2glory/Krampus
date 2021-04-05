@@ -223,6 +223,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 								if didWait and shared.__hide then
 									pause = true
 									wait(3)
+									start = os.clock()
 									pause = false
 								end
 								local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
