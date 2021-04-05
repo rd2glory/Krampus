@@ -46,6 +46,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	local HB = RunService.Heartbeat
 
 	local afkPoint = CFrame.new(-798.5,-39.425,-843.75)--CFrame.new(13,12,205)
+	local afkOffset = Vector3.new(15,0,7)
 	local registerOffset = CFrame.new(0, -2, 1)
 	local pickupCooldown = 0.05
 
@@ -107,7 +108,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			player:LoadCharacter()
 		end
 	end
-	
+
 	local function mobile()
 		local char = getCharacter()
 
@@ -139,7 +140,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 			return false
 		end
 	end
-	
+
 	local function getNearestRegister()
 		local character = getCharacter()
 		local root = character.PrimaryPart
@@ -164,6 +165,9 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 
 		local goal = nil
 		local pause = false
+		local inAfkSpot = false
+		local offset = Vector3.new()
+		local generator = Random.new()
 
 		local update = HB:Connect(function()
 			character,root = getBoth()
@@ -172,7 +176,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 				-- Holds out money just cuz why not
 				local Wallet = player.Backpack:FindFirstChild("Wallet") or character:FindFirstChild("Wallet")
 				local Combat = player.Backpack:FindFirstChild("Combat") or character:FindFirstChild("Combat")
-				
+
 				if Wallet and character then
 					Wallet.Parent = character
 				end
@@ -195,6 +199,7 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 						goal = register.Head.CFrame * registerOffset
 
 						start = os.clock()
+						inAfkSpot = false
 
 						repeat
 							yield()
@@ -292,8 +297,13 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 							end
 						end
 					else
+						if not inAfkSpot then
+							-- Come up with a new offset
+							offset = Vector3.new(generator:NextNumber(-afkOffset.x,afkOffset.x),generator:NextNumber(-afkOffset.y,afkOffset.y),generator:NextNumber(-afkOffset.z,afkOffset.z))
+							inAfkSpot = true
+						end
 						if (root.Position-afkPoint.Position).magnitude>3 then
-							goal = afkPoint
+							goal = afkPoint + Vector3.new(offset)
 						end
 					end
 				else
@@ -305,3 +315,4 @@ shared.KrampusLoader(2788229376,"Auto Farm",function(initTopBarButton,topLeft,to
 	end))
 	ToggleButton.Parent = topLeft
 end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/HideCharacter",true))()
