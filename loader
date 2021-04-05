@@ -1,258 +1,273 @@
-if not shared.KrampusLoader then
-	local version = "1.6"
+local version = "1.6"
 
-	local Players = game:GetService("Players")
-	local StarterGui = game:GetService("StarterGui")
-	local GuiService = game:GetService("GuiService")
-	local CoreGui = game:GetService("CoreGui")
-	local HB = game:GetService("RunService").Heartbeat
-	
-	local plr = Players.LocalPlayer
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local GuiService = game:GetService("GuiService")
+local CoreGui = game:GetService("CoreGui")
+local HB = game:GetService("RunService").Heartbeat
 
-	local black = Color3.new(0,0,0)
-	local white = Color3.new(1,1,1)
+local plr = Players.LocalPlayer
 
-	local function yield(length)
-		if length then
-			return wait(length)
-		else
-			return HB:wait()
-		end
-	end
-	
-	local function log(message)
-		print("KRAMPUS v"..version.." || "..message)
-	end
-	
-	local function sendNotif(title,text,logMessage)
-		if logMessage then
-			log(logMessage)
-		end
-		StarterGui:SetCore("SendNotification", {
-			Title = title,
-			Text = text,
-			Duration = 3,
-		})
-	end
+local black = Color3.new(0,0,0)
+local white = Color3.new(1,1,1)
 
-	local function validPlace(id)
-		return id == -1 or game.PlaceId == id
-	end
-
-	local function listen(obj,onPress)
-		local overlay = obj:WaitForChild("Background"):WaitForChild("StateOverlay")
-		local button = obj:WaitForChild("Input")
-		local pressing = false
-		button.MouseButton1Down:Connect(function()
-			pressing = true
-			overlay.ImageColor3 = black
-			overlay.ImageTransparency = 0.7
-		end)
-		button.MouseButton1Up:Connect(function()
-			if pressing then
-				pressing = false
-				overlay.ImageColor3 = white
-				overlay.ImageTransparency = 0.9
-				onPress(obj)
-			end
-		end)
-		obj.MouseEnter:Connect(function()
-			overlay.ImageColor3 = white
-			overlay.ImageTransparency = 0.9
-		end)
-		obj.MouseLeave:Connect(function()
-			overlay.ImageColor3 = white
-			overlay.ImageTransparency = 1
-		end)
-	end
-	
-	local s,e = pcall(function()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/staff",true))()
-	end)
-	
-	if s then
-		-- Loaded staff list
-		local function HandlePlayer(other)
-			if table.find(shared.KnownStaff,other.UserId) then
-				-- this dude is a staff member
-				plr:Kick("Krampus has just saved your life! "..other.Name.." is a known staff member and has just joined your game! Please rejoin a different server.")
-			end
-		end
-		
-		
-		for _,v in pairs(Players:GetPlayers()) do
-			coroutine.wrap(function()
-				HandlePlayer(v)
-			end)()
-		end
-		Players.PlayerAdded:Connect(HandlePlayer)
+local function yield(length)
+	if length then
+		return wait(length)
 	else
-		local logMessage = "We have been unable to load a known staff list for this game. You are nonw vulnerable to staff members. This might be solved by rejoining. If the error persists, then it is a problem on our end. Give us a but to fix it. Here is the full error log: "..e
-		
-		sendNotif("Failed to load known staff list!","Full details in console (F9)",logMessage)
+		return HB:wait()
 	end
+end
 
-	shared.KrampusLoader = setmetatable({
-		log = log;
-		notif = sendNotif;
-		staff = function()
-			return shared.KnownStaff or false
-		end;
-	},{
-		__call = function(_,placeId,name,code)
-			repeat yield() until game:IsLoaded()
+local function log(message)
+	print("KRAMPUS v"..version.." || "..message)
+end
 
-			local function createTopBarButton(onActivate)
-				local Button = Instance.new("Frame")
-				local Background = Instance.new("ImageButton")
-				local StateOverlay = Instance.new("ImageLabel")
-				local Input = Instance.new("TextButton")
-
-				Button.Name = name
-				Button.BackgroundTransparency = 1
-				Button.LayoutOrder = 1
-				Button.Size = UDim2.new(0, 32, 1, 0)
-
-				Background.Name = "Background"
-				Background.Parent = Button
-				Background.AnchorPoint = Vector2.new(0, 1)
-				Background.BackgroundTransparency = 1
-				Background.Position = UDim2.new(0, 0, 1, 0)
-				Background.Size = UDim2.new(0, 32, 0, 32)
-				Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
-
-				StateOverlay.Name = "StateOverlay"
-				StateOverlay.Parent = Background
-				StateOverlay.BackgroundTransparency = 1
-				StateOverlay.Size = UDim2.new(1, 0, 1, 0)
-				StateOverlay.ZIndex = 2
-				StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_2.png"
-				StateOverlay.ImageRectOffset = Vector2.new(490, 22)
-				StateOverlay.ImageRectSize = Vector2.new(17, 17)
-				StateOverlay.ImageTransparency = 1
-				StateOverlay.ScaleType = Enum.ScaleType.Slice
-				StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
-
-				Input.Name = "Input"
-				Input.Parent = Button
-				Input.BackgroundTransparency = 1
-				Input.Size = UDim2.new(1, 0, 1, 0)
-				Input.Text = ""
-
-				listen(Button,onActivate)
-
-				return Button
-			end
-
-			local KrampusLoaded = shared.KrampusLoaded
-			if not KrampusLoaded then
-				shared.KrampusLoaded = true
-
-				local Krampus = Instance.new("ScreenGui")
-				local TopBarFrame = Instance.new("Frame")
-				local RightFrame = Instance.new("Frame")
-				local ExtraFrame = Instance.new("Frame")
-				local MoreMenu = Instance.new("Frame")
-				local Layout = Instance.new("UIListLayout")
-				local LeftFrame = Instance.new("Frame")
-				local MenuIcon = Instance.new("Frame")
-				local Layout_2 = Instance.new("UIListLayout")
-				local ChatIcon = Instance.new("Frame")
-
-				Krampus.Name = "Krampus"
-				Krampus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-				Krampus.ResetOnSpawn = false
-				Krampus.IgnoreGuiInset = true
-
-				TopBarFrame.Name = "TopBarFrame"
-				TopBarFrame.Parent = Krampus
-				TopBarFrame.BackgroundTransparency = 1
-				TopBarFrame.Size = UDim2.new(1, 0, 0, 36)
-
-				RightFrame.Name = "RightFrame"
-				RightFrame.Parent = TopBarFrame
-				RightFrame.AnchorPoint = Vector2.new(1, 0)
-				RightFrame.BackgroundTransparency = 1
-				RightFrame.Position = UDim2.new(1, -16, 0, 0)
-				RightFrame.Size = UDim2.new(0.5, -16, 1, 0)
-
-				ExtraFrame.Name = "ExtraFrame"
-				ExtraFrame.Parent = Krampus
-				ExtraFrame.AnchorPoint = Vector2.new(0, 0)
-				ExtraFrame.BackgroundTransparency = 1
-				ExtraFrame.Position = UDim2.new(0, 0, 0, 0)
-				ExtraFrame.Size = UDim2.fromScale(1,1)
-
-				MoreMenu.Name = "MoreMenu"
-				MoreMenu.Parent = RightFrame
-				MoreMenu.BackgroundTransparency = 1
-				MoreMenu.LayoutOrder = 2
-				MoreMenu.Size = UDim2.new(0, 32, 1, 0)
-
-				Layout.Name = "Layout"
-				Layout.Parent = RightFrame
-				Layout.FillDirection = Enum.FillDirection.Horizontal
-				Layout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-				Layout.SortOrder = Enum.SortOrder.LayoutOrder
-				Layout.VerticalAlignment = Enum.VerticalAlignment.Center
-				Layout.Padding = UDim.new(0, 12)
-
-				LeftFrame.Name = "LeftFrame"
-				LeftFrame.Parent = TopBarFrame
-				LeftFrame.BackgroundTransparency = 1
-				LeftFrame.Position = UDim2.new(0, 16, 0, 0)
-				LeftFrame.Size = UDim2.new(0.5, -16, 1, 0)
-
-				MenuIcon.Name = "MenuIcon"
-				MenuIcon.Parent = LeftFrame
-				MenuIcon.BackgroundTransparency = 1
-				MenuIcon.LayoutOrder = 1
-				MenuIcon.Size = UDim2.new(0, 32, 1, 0)
-
-				Layout_2.Name = "Layout"
-				Layout_2.Parent = LeftFrame
-				Layout_2.FillDirection = Enum.FillDirection.Horizontal
-				Layout_2.SortOrder = Enum.SortOrder.LayoutOrder
-				Layout_2.VerticalAlignment = Enum.VerticalAlignment.Center
-				Layout_2.Padding = UDim.new(0, 12)
-
-				ChatIcon.Name = "ChatIcon"
-				ChatIcon.Parent = LeftFrame
-				ChatIcon.BackgroundTransparency = 1
-				ChatIcon.LayoutOrder = 1
-				ChatIcon.Size = UDim2.new(0, 32, 1, 0)
-
-				Krampus.Parent = CoreGui
-				shared.Krampus = Krampus
-
-				shared.KrampusUpdate = HB:Connect(function()
-					if not GuiService.MenuIsOpen then
-						TopBarFrame.Visible = true
-					else
-						TopBarFrame.Visible = false
-					end
-				end)
-
-				sendNotif("Krampus v"..version.." Loaded","Made by iamtryingtofindname","Successfully loaded Krampus v"..version)
-			end
-
-			shared.KrampusModules = shared.KrampusModules or {}
-
-			if validPlace(placeId) and not shared.KrampusModules[name] then
-				shared.KrampusModules[name] = true
-				-- It is in the right game
-				local Krampus = shared.Krampus
-				local TopBar = Krampus:WaitForChild("TopBarFrame")
-				local left = TopBar:WaitForChild("LeftFrame")
-				local right = TopBar:WaitForChild("RightFrame")
-				local extra = Krampus:WaitForChild("ExtraFrame")
-				code(createTopBarButton,left,right,extra)
-				sendNotif("Successfully loaded!",name.." has been loaded","Loaded "..name)
-			elseif not validPlace(placeId) then
-				sendNotif("Failed to load!","Invalid place Id","Module "..name.." can not be loaded in this place")
-			else
-				sendNotif("Failed to load!","Module already loaded!","Module "..name.." is already loaded")
-			end
-		end
+local function sendNotif(title,text,logMessage)
+	if logMessage then
+		log(logMessage)
+	end
+	StarterGui:SetCore("SendNotification", {
+		Title = title,
+		Text = text,
+		Duration = 3,
 	})
 end
+
+local function validPlace(id)
+	return id == -1 or game.PlaceId == id
+end
+
+local function listen(obj,onPress)
+	local overlay = obj:WaitForChild("Background"):WaitForChild("StateOverlay")
+	local button = obj:WaitForChild("Input")
+	local pressing = false
+	button.MouseButton1Down:Connect(function()
+		pressing = true
+		overlay.ImageColor3 = black
+		overlay.ImageTransparency = 0.7
+	end)
+	button.MouseButton1Up:Connect(function()
+		if pressing then
+			pressing = false
+			overlay.ImageColor3 = white
+			overlay.ImageTransparency = 0.9
+			onPress(obj)
+		end
+	end)
+	obj.MouseEnter:Connect(function()
+		overlay.ImageColor3 = white
+		overlay.ImageTransparency = 0.9
+	end)
+	obj.MouseLeave:Connect(function()
+		overlay.ImageColor3 = white
+		overlay.ImageTransparency = 1
+	end)
+end
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/staff",true))()
+
+local function HandlePlayer(other)
+	if table.find(shared.KnownStaff,other.UserId) then
+		-- this dude is a staff member
+		plr:Kick("Krampus has just saved your life! "..other.Name.." is a known staff member and has just joined your game! Please rejoin a different server.")
+	end
+end
+
+
+for _,v in pairs(Players:GetPlayers()) do
+	coroutine.wrap(function()
+		HandlePlayer(v)
+	end)()
+end
+Players.PlayerAdded:Connect(HandlePlayer)
+
+-- Blacklist
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/blacklist",true))()
+local function blacklist(reason)
+	plr:Kick("You have been blacklisted from Krampus! REASON: "..(reason or "Unspecified"))
+end
+
+if table.find(shared.KnownStaff,plr.UserId) then
+	blacklist("You are a known staff member for this game.")
+end
+
+local list = shared.blacklist
+
+local id = plr.UserId
+
+local thisId = game.PlaceId
+
+for _,v in pairs(list) do
+	if id == v.UserId then
+		local places = v.PlaceIds
+		if not places or table.find(places,thisId) then
+			blacklist(v.Reason)
+		end
+	end
+end
+
+-- Actual loader
+shared.KrampusLoader = setmetatable({
+	log = log;
+	notif = sendNotif;
+	staff = function()
+		return shared.KnownStaff or false
+	end;
+},{
+	__call = function(_,placeId,name,code)
+		repeat yield() until game:IsLoaded()
+
+		local function createTopBarButton(onActivate)
+			local Button = Instance.new("Frame")
+			local Background = Instance.new("ImageButton")
+			local StateOverlay = Instance.new("ImageLabel")
+			local Input = Instance.new("TextButton")
+
+			Button.Name = name
+			Button.BackgroundTransparency = 1
+			Button.LayoutOrder = 1
+			Button.Size = UDim2.new(0, 32, 1, 0)
+
+			Background.Name = "Background"
+			Background.Parent = Button
+			Background.AnchorPoint = Vector2.new(0, 1)
+			Background.BackgroundTransparency = 1
+			Background.Position = UDim2.new(0, 0, 1, 0)
+			Background.Size = UDim2.new(0, 32, 0, 32)
+			Background.Image = "rbxasset://textures/ui/TopBar/iconBase.png"
+
+			StateOverlay.Name = "StateOverlay"
+			StateOverlay.Parent = Background
+			StateOverlay.BackgroundTransparency = 1
+			StateOverlay.Size = UDim2.new(1, 0, 1, 0)
+			StateOverlay.ZIndex = 2
+			StateOverlay.Image = "rbxasset://LuaPackages/Packages/_Index/UIBlox/UIBlox/App/ImageSet/ImageAtlas/img_set_1x_2.png"
+			StateOverlay.ImageRectOffset = Vector2.new(490, 22)
+			StateOverlay.ImageRectSize = Vector2.new(17, 17)
+			StateOverlay.ImageTransparency = 1
+			StateOverlay.ScaleType = Enum.ScaleType.Slice
+			StateOverlay.SliceCenter = Rect.new(8, 8, 8, 8)
+
+			Input.Name = "Input"
+			Input.Parent = Button
+			Input.BackgroundTransparency = 1
+			Input.Size = UDim2.new(1, 0, 1, 0)
+			Input.Text = ""
+
+			listen(Button,onActivate)
+
+			return Button
+		end
+
+		local KrampusLoaded = shared.KrampusLoaded
+		if not KrampusLoaded then
+			shared.KrampusLoaded = true
+
+			local Krampus = Instance.new("ScreenGui")
+			local TopBarFrame = Instance.new("Frame")
+			local RightFrame = Instance.new("Frame")
+			local ExtraFrame = Instance.new("Frame")
+			local MoreMenu = Instance.new("Frame")
+			local Layout = Instance.new("UIListLayout")
+			local LeftFrame = Instance.new("Frame")
+			local MenuIcon = Instance.new("Frame")
+			local Layout_2 = Instance.new("UIListLayout")
+			local ChatIcon = Instance.new("Frame")
+
+			Krampus.Name = "Krampus"
+			Krampus.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+			Krampus.ResetOnSpawn = false
+			Krampus.IgnoreGuiInset = true
+
+			TopBarFrame.Name = "TopBarFrame"
+			TopBarFrame.Parent = Krampus
+			TopBarFrame.BackgroundTransparency = 1
+			TopBarFrame.Size = UDim2.new(1, 0, 0, 36)
+
+			RightFrame.Name = "RightFrame"
+			RightFrame.Parent = TopBarFrame
+			RightFrame.AnchorPoint = Vector2.new(1, 0)
+			RightFrame.BackgroundTransparency = 1
+			RightFrame.Position = UDim2.new(1, -16, 0, 0)
+			RightFrame.Size = UDim2.new(0.5, -16, 1, 0)
+
+			ExtraFrame.Name = "ExtraFrame"
+			ExtraFrame.Parent = Krampus
+			ExtraFrame.AnchorPoint = Vector2.new(0, 0)
+			ExtraFrame.BackgroundTransparency = 1
+			ExtraFrame.Position = UDim2.new(0, 0, 0, 0)
+			ExtraFrame.Size = UDim2.fromScale(1,1)
+
+			MoreMenu.Name = "MoreMenu"
+			MoreMenu.Parent = RightFrame
+			MoreMenu.BackgroundTransparency = 1
+			MoreMenu.LayoutOrder = 2
+			MoreMenu.Size = UDim2.new(0, 32, 1, 0)
+
+			Layout.Name = "Layout"
+			Layout.Parent = RightFrame
+			Layout.FillDirection = Enum.FillDirection.Horizontal
+			Layout.HorizontalAlignment = Enum.HorizontalAlignment.Right
+			Layout.SortOrder = Enum.SortOrder.LayoutOrder
+			Layout.VerticalAlignment = Enum.VerticalAlignment.Center
+			Layout.Padding = UDim.new(0, 12)
+
+			LeftFrame.Name = "LeftFrame"
+			LeftFrame.Parent = TopBarFrame
+			LeftFrame.BackgroundTransparency = 1
+			LeftFrame.Position = UDim2.new(0, 16, 0, 0)
+			LeftFrame.Size = UDim2.new(0.5, -16, 1, 0)
+
+			MenuIcon.Name = "MenuIcon"
+			MenuIcon.Parent = LeftFrame
+			MenuIcon.BackgroundTransparency = 1
+			MenuIcon.LayoutOrder = 1
+			MenuIcon.Size = UDim2.new(0, 32, 1, 0)
+
+			Layout_2.Name = "Layout"
+			Layout_2.Parent = LeftFrame
+			Layout_2.FillDirection = Enum.FillDirection.Horizontal
+			Layout_2.SortOrder = Enum.SortOrder.LayoutOrder
+			Layout_2.VerticalAlignment = Enum.VerticalAlignment.Center
+			Layout_2.Padding = UDim.new(0, 12)
+
+			ChatIcon.Name = "ChatIcon"
+			ChatIcon.Parent = LeftFrame
+			ChatIcon.BackgroundTransparency = 1
+			ChatIcon.LayoutOrder = 1
+			ChatIcon.Size = UDim2.new(0, 32, 1, 0)
+
+			Krampus.Parent = CoreGui
+			shared.Krampus = Krampus
+
+			shared.KrampusUpdate = HB:Connect(function()
+				if not GuiService.MenuIsOpen then
+					TopBarFrame.Visible = true
+				else
+					TopBarFrame.Visible = false
+				end
+			end)
+
+			sendNotif("Krampus v"..version.." Loaded","Made by iamtryingtofindname","Successfully loaded Krampus v"..version)
+		end
+
+		shared.KrampusModules = shared.KrampusModules or {}
+
+		if validPlace(placeId) and not shared.KrampusModules[name] then
+			shared.KrampusModules[name] = true
+			-- It is in the right game
+			local Krampus = shared.Krampus
+			local TopBar = Krampus:WaitForChild("TopBarFrame")
+			local left = TopBar:WaitForChild("LeftFrame")
+			local right = TopBar:WaitForChild("RightFrame")
+			local extra = Krampus:WaitForChild("ExtraFrame")
+			code(createTopBarButton,left,right,extra)
+			sendNotif("Successfully loaded!",name.." has been loaded","Loaded "..name)
+		elseif not validPlace(placeId) then
+			sendNotif("Failed to load!","Invalid place Id","Module "..name.." can not be loaded in this place")
+		else
+			sendNotif("Failed to load!","Module already loaded!","Module "..name.." is already loaded")
+		end
+	end
+})
