@@ -19,9 +19,15 @@ if not shared.KrampusLoader then
 			return HB:wait()
 		end
 	end
-
+	
+	local function log(message)
+		print("KRAMPUS v"..version.." || "..message)
+	end
+	
 	local function sendNotif(title,text,logMessage)
-		print("KRAMPUS v"..version.." || "..logMessage)
+		if logMessage then
+			log(logMessage)
+		end
 		StarterGui:SetCore("SendNotification", {
 			Title = title,
 			Text = text,
@@ -80,7 +86,11 @@ if not shared.KrampusLoader then
 	end
 
 	shared.KrampusLoader = setmetatable({
-		-- Stuff will be added here in the future
+		log = log;
+		notif = sendNotif;
+		staff = function()
+			return shared.KnownStaff or false
+		end;
 	},{
 		__call = function(_,placeId,name,code)
 			repeat yield() until game:IsLoaded()
