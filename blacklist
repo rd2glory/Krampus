@@ -9,11 +9,9 @@ local blacklist = {
 		}
 	};
 	{
-		UserId = 2063482249;
-		Reason = "just e";
-		PlaceIds = {
-			1754614384,
-		}
+		UserId = 1350477738;
+		Reason = "Abuse";
+		--PlaceIds = {2788229376}
 	};
 }
 
