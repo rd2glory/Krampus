@@ -1,0 +1,13 @@
+local blacklist = {
+	{
+		UserId = 0;
+		Reason = "This is an example blacklist";
+		PlaceIds = {
+			0,
+			1,
+			2,
+		}
+	}
+}
+
+shared.blacklist = blacklist
