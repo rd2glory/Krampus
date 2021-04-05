@@ -47,4 +47,4 @@ local list = {
 	};
 }
 
-shared.KnownStaff = list[game.PlaceId] or {}
+shared.KnownStaff = list[tostring(game.PlaceId)] or {}
