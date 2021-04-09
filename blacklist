@@ -8,11 +8,13 @@ local blacklist = {
 			2,
 		}
 	};
+	--[[
 	{
 		UserId = 1350477738;
 		Reason = "Abuse";
 		--PlaceIds = {2788229376}
 	};
+	]]--
 }
 
 shared.blacklist = blacklist
