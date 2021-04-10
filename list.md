@@ -16,7 +16,6 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 
 **Basic Fly Script**
 ```
--- This will unload all loaded modules AND the Krampus loader
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/dump/fly.lua"))()
 ```
 
