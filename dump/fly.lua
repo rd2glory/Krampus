@@ -17,7 +17,7 @@ if shared.flyEnabled then
 		Core.Parent = workspace
 		local Weld = Instance.new("Weld", Core)
 		Weld.Part0 = Core
-		Weld.Part1 = localplayer.Character.LowerTorso
+		Weld.Part1 = localplayer.Character:FindFirstChild("LowerTorso") or localplayer.Character:FindFirstChild("Torso")
 		Weld.C0 = CFrame.new(0, 0, 0)
 	end)
 
