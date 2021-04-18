@@ -65,19 +65,22 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 									root.CFrame = c.CFrame + Vector3.new(12,height,0)
 									local start = os.clock()
 									local connect = nil
-									local move = nil 
+									local move = nil
+									local con = false
 									move = hb:Connect(function()
 										hum:MoveTo(c.Position + Vector3.new(0,height,0))
 										if #c:GetChildren() ~= o or os.clock()-start > 2 then
 											move:Disconnect()
 											connect:Disconnect()
+											con = true
 										end
 									end)
 									connect = hum.MoveToFinished:Connect(function()
 										connect:disconnect()
 										move:Disconnect()
+										con = true
 									end)
-
+									repeat hb:wait() until con
 								end
 							else
 							    last = 0
