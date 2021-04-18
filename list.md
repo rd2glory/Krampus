@@ -24,6 +24,11 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/dump/stealer.lua"))()
 ```
 
+**Simple Rejoin**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/rj.lua"))()
+```
+
 ## Da Hood
 
 ### Packages
