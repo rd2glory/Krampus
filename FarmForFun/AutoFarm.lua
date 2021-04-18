@@ -36,7 +36,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 				local current = 1
 				local db = false
 				local grey = Color3.fromRGB(135,135,135)
-				local timeDelay = wait()
+				local timeDelay = 0.05
 				local hb = game:GetService("RunService").Heartbeat
 				shared.farm = game:GetService("RunService").RenderStepped:Connect(function(dt)
 					if not db and os.clock()-last>=timeDelay and plr.Character then
