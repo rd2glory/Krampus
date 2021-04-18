@@ -56,7 +56,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 								if fence and c.SquareCost.Price.TextColor3 ~= grey then
 									local part = fence.PrimaryPart
 									local start = os.clock()
-									root.CFrame = part.CFrame * CFrame.new(10,0,0)
+									root.CFrame = part.CFrame * CFrame.new(10,height,0)
 									repeat 
 										hum:MoveTo(part.Position)
 										hb:wait()
