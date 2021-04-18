@@ -42,47 +42,49 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 					if not db and os.clock()-last>=timeDelay and plr.Character then
 						db = true
 						last = os.clock()
-						local c = plr.Character
-						local root = c.PrimaryPart
-						local hum = c.Humanoid
-						local c = squares[current]
-						if #c:GetChildren() > 0 then -- It is an active square
-							local o = #c:GetChildren()
-							local height = 5
-							root.CFrame = c.CFrame + Vector3.new(0,height,0)
-							local fence = c:FindFirstChild("_fence")
-							local model = c:FindFirstChild("_model")
-							if fence and c.SquareCost.Price.TextColor3 ~= grey then
-								local part = fence.PrimaryPart
-								local start = os.clock()
-								root.CFrame = part.CFrame * CFrame.new(10,0,0)
-								repeat 
-									hum:MoveTo(part.Position)
-									hb:wait()
-								until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
-							elseif model then
-								root.CFrame = c.CFrame + Vector3.new(12,height,0)
-								local start = os.clock()
-								local connect = nil
-								local move = nil 
-								move = hb:Connect(function()
-									hum:MoveTo(c.Position + Vector3.new(0,height,0))
-									if #c:GetChildren() ~= o or os.clock()-start > 2 then
+						pcall(function()
+							local c = plr.Character
+							local root = c.PrimaryPart
+							local hum = c.Humanoid
+							local c = squares[current]
+							if #c:GetChildren() > 0 then -- It is an active square
+								local o = #c:GetChildren()
+								local height = 5
+								root.CFrame = c.CFrame + Vector3.new(0,height,0)
+								local fence = c:FindFirstChild("_fence")
+								local model = c:FindFirstChild("_model")
+								if fence and c.SquareCost.Price.TextColor3 ~= grey then
+									local part = fence.PrimaryPart
+									local start = os.clock()
+									root.CFrame = part.CFrame * CFrame.new(10,0,0)
+									repeat 
+										hum:MoveTo(part.Position)
+										hb:wait()
+									until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
+								elseif model then
+									root.CFrame = c.CFrame + Vector3.new(12,height,0)
+									local start = os.clock()
+									local connect = nil
+									local move = nil 
+									move = hb:Connect(function()
+										hum:MoveTo(c.Position + Vector3.new(0,height,0))
+										if #c:GetChildren() ~= o or os.clock()-start > 2 then
+											move:Disconnect()
+											connect:Disconnect()
+										end
+									end)
+									connect = hum.MoveToFinished:Connect(function()
+										connect:disconnect()
 										move:Disconnect()
-										connect:Disconnect()
-									end
-								end)
-								connect = hum.MoveToFinished:Connect(function()
-									connect:disconnect()
-									move:Disconnect()
-								end)
+									end)
 
+								end
 							end
-						end
-						current = current + 1
-						if current > #squares then
-							current = 1
-						end
+							current = current + 1
+							if current > #squares then
+								current = 1
+							end
+						end)
 						db = false
 					end
 				end)
