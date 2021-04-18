@@ -41,14 +41,14 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 				shared.farm = game:GetService("RunService").RenderStepped:Connect(function(dt)
 					if not db and os.clock()-last>=timeDelay and plr.Character then
 						db = true
-						last = os.clock()
 						pcall(function()
 							local c = plr.Character
 							local root = c.PrimaryPart
 							local hum = c.Humanoid
 							local c = squares[current]
-							if #c:GetChildren() > 0 then -- It is an active square
-								local o = #c:GetChildren()
+							local o = #c:GetChildren()
+							if o > 0 and not (o == 1 and c:GetChildren()[1]:IsA("Sound")) then -- It is an active square
+							    last = os.clock()
 								local height = 5
 								root.CFrame = c.CFrame + Vector3.new(0,height,0)
 								local fence = c:FindFirstChild("_fence")
@@ -61,7 +61,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 										hum:MoveTo(part.Position)
 										hb:wait()
 									until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
-								elseif model then
+								elseif model and c:FindFirstChild("_ReadyParticles") then
 									root.CFrame = c.CFrame + Vector3.new(12,height,0)
 									local start = os.clock()
 									local connect = nil
@@ -79,6 +79,8 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 									end)
 
 								end
+							else
+							    last = 0
 							end
 							current = current + 1
 							if current > #squares then
