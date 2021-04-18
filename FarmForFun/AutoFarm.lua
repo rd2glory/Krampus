@@ -53,12 +53,12 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 							local fence = c:FindFirstChild("_fence")
 							local model = c:FindFirstChild("_model")
 							if fence and c.SquareCost.Price.TextColor3 ~= grey then
-								local part = fence.fence
+								local part = fence.PrimaryPart
 								local start = os.clock()
 								root.Anchored = false
 								root.CFrame = part.CFrame * CFrame.new(10,0,0)
 								repeat 
-									hum:MoveTo(part.CFrame.Position)
+									hum:MoveTo(part.Position)
 									hb:wait()
 								until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
 								root.Anchored = true
