@@ -49,7 +49,8 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 						local c = squares[current]
 						if #c:GetChildren() > 0 then -- It is an active square
 							local o = #c:GetChildren()
-							root.CFrame = c.CFrame + Vector3.new(0,4,0)
+							local height = 6
+							root.CFrame = c.CFrame + Vector3.new(0,height,0)
 							local fence = c:FindFirstChild("_fence")
 							local model = c:FindFirstChild("_model")
 							if fence and c.SquareCost.Price.TextColor3 ~= grey then
@@ -63,13 +64,13 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 								until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
 								root.Anchored = true
 							elseif model then
-								root.CFrame = c.CFrame + Vector3.new(15,4,0)
+								root.CFrame = c.CFrame + Vector3.new(15,height,0)
 								local start = os.clock()
 								root.Anchored = false
 								local connect = nil
 								local move = nil 
 								move = hb:Connect(function()
-									hum:MoveTo(c.Position + Vector3.new(0,4,0))
+									hum:MoveTo(c.Position + Vector3.new(0,height,0))
 									if #c:GetChildren() ~= o or os.clock()-start > 2 then
 										move:Disconnect()
 										connect:Disconnect()
