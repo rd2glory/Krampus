@@ -48,7 +48,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 							local c = squares[current]
 							local o = #c:GetChildren()
 							if o > 0 and not (o == 1 and c:GetChildren()[1]:IsA("Sound")) then -- It is an active square
-							    last = os.clock()
+								last = os.clock()
 								local height = 5
 								root.CFrame = c.CFrame + Vector3.new(0,height,0)
 								local fence = c:FindFirstChild("_fence")
@@ -69,7 +69,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 									local con = false
 									move = hb:Connect(function()
 										hum:MoveTo(c.Position + Vector3.new(0,height,0))
-										if #c:GetChildren() ~= o or os.clock()-start > 2 then
+										if os.clock()-start > 2 then
 											move:Disconnect()
 											connect:Disconnect()
 											con = true
@@ -83,7 +83,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 									repeat hb:wait() until con
 								end
 							else
-							    last = 0
+								last = 0
 							end
 							current = current + 1
 							if current > #squares then
