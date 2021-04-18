@@ -45,11 +45,10 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 						local c = plr.Character
 						local root = c.PrimaryPart
 						local hum = c.Humanoid
-						root.Anchored = true
 						local c = squares[current]
 						if #c:GetChildren() > 0 then -- It is an active square
 							local o = #c:GetChildren()
-							local height = 6
+							local height = 4
 							root.CFrame = c.CFrame + Vector3.new(0,height,0)
 							local fence = c:FindFirstChild("_fence")
 							local model = c:FindFirstChild("_model")
@@ -62,7 +61,6 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 									hum:MoveTo(part.Position)
 									hb:wait()
 								until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
-								root.Anchored = true
 							elseif model then
 								root.CFrame = c.CFrame + Vector3.new(15,height,0)
 								local start = os.clock()
