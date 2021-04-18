@@ -48,23 +48,21 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 						local c = squares[current]
 						if #c:GetChildren() > 0 then -- It is an active square
 							local o = #c:GetChildren()
-							local height = 4
+							local height = 5
 							root.CFrame = c.CFrame + Vector3.new(0,height,0)
 							local fence = c:FindFirstChild("_fence")
 							local model = c:FindFirstChild("_model")
 							if fence and c.SquareCost.Price.TextColor3 ~= grey then
 								local part = fence.PrimaryPart
 								local start = os.clock()
-								root.Anchored = false
 								root.CFrame = part.CFrame * CFrame.new(10,0,0)
 								repeat 
 									hum:MoveTo(part.Position)
 									hb:wait()
 								until not fence or not fence:IsDescendantOf(game) or os.clock()-start > 2
 							elseif model then
-								root.CFrame = c.CFrame + Vector3.new(15,height,0)
+								root.CFrame = c.CFrame + Vector3.new(12,height,0)
 								local start = os.clock()
-								root.Anchored = false
 								local connect = nil
 								local move = nil 
 								move = hb:Connect(function()
@@ -93,9 +91,6 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 			State.Text = "OFF"
 			pcall(function()
 				shared.farm:Disconnect()
-			end)
-			pcall(function()
-				plr.Character.PrimaryPart.Anchored = false
 			end)
 			shared.farm = nil
 		end
