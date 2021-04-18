@@ -84,3 +84,10 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 ```
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/Da-Hood/Pick-Up",true))()
 ```
+
+## Farm For Fun
+
+**Auto Farm**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/FarmForFun/AutoFarm.lua"))()
+```
