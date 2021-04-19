@@ -25,7 +25,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 			for _,plot in pairs(Plots:GetChildren()) do
 				if plot.Sign.Screen.SurfaceGui.Frame.Username.Text == plr.Name.."'s" then
 					myPlot = plot
-					for _,v in pairs(myPlot.Sign:GetChildren()) do
+					for _,v in pairs(myPlot.Sign:GetDescendants()) do
 						if v:IsA("Part") then
 							v.CanCollide = false		
 						end
