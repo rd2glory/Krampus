@@ -36,6 +36,13 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 			if not myPlot then
 				warn("Plot not found!")
 			else
+				local char = plr.Character
+				if char then
+					local hum = char:FindFirstChildOfClass("Humanoid")
+					if hum then
+						hum.WalkSpeed = 16	
+					end
+				end
 				local squares = myPlot.Plot.Squares:GetChildren()
 				local last = 0
 				local current = 1
@@ -105,6 +112,13 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 				shared.farm:Disconnect()
 			end)
 			shared.farm = nil
+			local char = plr.Character
+			if char then
+				local hum = char:FindFirstChildOfClass("Humanoid")
+				if hum then
+					hum.WalkSpeed = 16	
+				end
+			end
 		end
 		_db = false
 	end) -- Makes a topbar button
