@@ -36,13 +36,6 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 			if not myPlot then
 				warn("Plot not found!")
 			else
-				local char = plr.Character
-				if char then
-					local hum = char:FindFirstChildOfClass("Humanoid")
-					if hum then
-						hum.WalkSpeed = 90	
-					end
-				end
 				local squares = myPlot.Plot.Squares:GetChildren()
 				local last = 0
 				local current = 1
@@ -53,6 +46,13 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 				shared.farm = game:GetService("RunService").RenderStepped:Connect(function(dt)
 					if not db and os.clock()-last>=timeDelay and plr.Character then
 						db = true
+						local char = plr.Character
+				        if char then
+					        local hum = char:FindFirstChildOfClass("Humanoid")
+					        if hum then
+					        	hum.WalkSpeed = 90	
+					        end
+				        end
 						pcall(function()
 							local c = plr.Character
 							local root = c.PrimaryPart
