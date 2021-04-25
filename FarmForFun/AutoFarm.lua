@@ -40,7 +40,7 @@ shared.KrampusLoader(6598746935,"AutoFarm",function(initTopBarButton,topLeft,top
 				if char then
 					local hum = char:FindFirstChildOfClass("Humanoid")
 					if hum then
-						hum.WalkSpeed = 16	
+						hum.WalkSpeed = 90	
 					end
 				end
 				local squares = myPlot.Plot.Squares:GetChildren()
