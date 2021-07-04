@@ -5,6 +5,9 @@ raycastParams.FilterDescendantsInstances = {character}
 raycastParams.FilterType = Enum.RaycastFilterType.Blacklist
 
 local function doRaycast()
+    print("Raycasting!")
+    print("---------------------------")
+    
 	local ray = workspace:Raycast(character.PrimaryPart.Position, Vector3.new(0,-100,0),raycastParams)
 
 	if ray and ray.Instance then
@@ -23,6 +26,8 @@ pcall(function()
 end)
 
 local key = "N"
+
+-- press n to raycast and open console
 
 shared.z = game:GetService("UserInputService").InputBegan:Connect(function(input,gpe)
 	if not gpe and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode[key] then
