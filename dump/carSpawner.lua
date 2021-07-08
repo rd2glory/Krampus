@@ -1,4 +1,4 @@
-local name = "Torpedo"
+local name = "BankTruck"
 local shouldWeld = true
 local shouldAnchor = false
 
@@ -7,6 +7,19 @@ local clone = vehicle:Clone()
 local root = game:GetService("Players").LocalPlayer.Character.PrimaryPart
 local rootCFrame = root.CFrame
 local carRoot = clone.PrimaryPart
+
+-- Delete dog sit and police lights because they r annoying
+local lights = clone:FindFirstChild("PoliceLights")
+local dog = clone:FindFirstChild("DogSit")
+
+if lights then
+    lights:Destroy()
+end
+
+if dog then
+    dog:Destroy()
+end
+
 if shouldWeld then
     for i,v in pairs(clone:GetDescendants()) do
         if v:IsA("BasePart") and v ~= carRoot then
@@ -29,6 +42,6 @@ end
 clone.Parent = workspace.Vehicles
 
 clone:SetPrimaryPartCFrame(rootCFrame)
-root.CFrame = root.CFrame * CFrame.new(0,8,0)
+root.CFrame = root.CFrame * CFrame.new(0,8,8)
 
 print("Spawned "..name)
