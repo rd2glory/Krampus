@@ -96,3 +96,10 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/K
 ```
 loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/FarmForFun/AutoFarm.lua"))()
 ```
+
+## Tower Of Hell
+
+**General Script**
+```
+loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/dump/TOHgeneral.lua"))()
+```
