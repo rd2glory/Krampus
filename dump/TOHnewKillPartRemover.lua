@@ -6,5 +6,9 @@ local function update()
     end
 end
 
-workspace.ChildAdded:Connect(update)
-workspace.ChildRemoved:Connect(update)
+workspace.DescendantAdded:Connect(update)
+workspace.DescendantRemoved:Connect(update)
+
+update()
+
+print("all done")
