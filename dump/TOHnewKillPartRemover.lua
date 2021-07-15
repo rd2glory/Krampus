@@ -7,7 +7,7 @@ local function update()
 end
 
 workspace.DescendantAdded:Connect(update)
-workspace.DescendantRemoved:Connect(update)
+workspace.DescendantRemoving:Connect(update)
 
 update()
 
