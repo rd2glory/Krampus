@@ -1,5 +1,3 @@
-repeat wait() until game:IsLoaded()
-print("started")
 --[[
 for i,v in pairs(workspace.tower.sections:GetChildren()) do
 	if v.Name ~= "start" and v.Name ~= "finish" then
@@ -21,10 +19,8 @@ local function update()
 	end
 end
 
---[[
-workspace.ChildAdded:Connect(update)
-workspace.ChildRemoved:Connect(update)
-]]--
+--workspace.ChildAdded:Connect(update)
+--workspace.ChildRemoved:Connect(update)
 
 update()
 
@@ -98,9 +94,11 @@ local function teleport(dest)
 	end
 end
 
+repeat wait() until game:IsLoaded()
+
 wait(5)
 print("e")
-goal = workspace.tower.sections.finish.FinishGlow.CFrame:ToWorldSpace(CFrame.new(-12,-7,0))--[[CFrame.new(root.Position.X,goal.Y+10,root.Position.Z)]]--
+goal = workspace.tower.sections.finish.FinishGlow.CFrame:ToWorldSpace(CFrame.new(-12,-7,0))--CFrame.new(root.Position.X,goal.Y+10,root.Position.Z)
 
 teleport(goal)
 
@@ -118,7 +116,7 @@ game:GetService("Players").LocalPlayer:Kick("Server hopping...")
 
 wait(1)
 
-syn.queue_on_teleport(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/TOH/onTeleport.lua"))
+syn.queue_on_teleport('loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtryingtofindname/Krampus/main/TOH/onTeleport.lua"))')
 
 wait(9)
 
