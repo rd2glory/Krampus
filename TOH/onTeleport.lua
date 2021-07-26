@@ -1,3 +1,5 @@
+repeat wait() until game:IsLoaded()
+print("started")
 --[[
 for i,v in pairs(workspace.tower.sections:GetChildren()) do
 	if v.Name ~= "start" and v.Name ~= "finish" then
@@ -95,8 +97,6 @@ local function teleport(dest)
 		end
 	end
 end
-
-repeat wait() until game:IsLoaded()
 
 wait(5)
 print("e")
