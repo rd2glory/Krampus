@@ -11,7 +11,9 @@ local handle = sword.Handle
 sword.Parent = player.Character
 
 for _,target in pairs(game:GetService("Players"):GetPlayers()) do
+    if target == player then continue end
     if player.Character.Humanoid.Health <= 0 then break end
+    print("killing ",target.Name,"!")
 
     local char = target.Character
     local humanoid = char.Humanoid
