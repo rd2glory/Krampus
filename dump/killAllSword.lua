@@ -2,7 +2,8 @@ local hb = game:GetService("RunService").Heartbeat
 
 local player = game:GetService("Players").LocalPlayer
 
-local doActivate = true
+local doActivate = false
+local resetAtEnd = true
 
 local swordName = "Sword"
 local sword = player.Backpack:FindFirstChild(swordName) or player.Character:FindFirstChild(swordName)
@@ -42,5 +43,8 @@ for _,target in pairs(game:GetService("Players"):GetPlayers()) do
         end
         hb:Wait()
     end
+end
 
+if resetAtEnd then
+    player.Character.Humanoid.Health = 0
 end
