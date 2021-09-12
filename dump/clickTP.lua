@@ -10,6 +10,7 @@ pcall(function()
 end)
 
 shared.v = game:GetService("UserInputService").InputBegan:Connect(function(input,gpe)
+	if gpe then return end
 	if input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode[key] then
 		toggle = not toggle
 	elseif toggle and input.UserInputType == Enum.UserInputType.MouseButton1 then
